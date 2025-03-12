@@ -102,7 +102,7 @@
             } elseif ($action === 'dangKyDocGia') {
                 require_once __DIR__ . '/../doc_gia/dang_ky.php';
             } elseif ($action === 'themPhieuMuon') {
-                require_once __DIR__ . '/../sach/them_phieu_muon.php';
+                require_once __DIR__ . '/../phieu_muon/them_phieu_muon.php';
             } elseif ($action === 'thongKe') {
                 require_once __DIR__ . '/../sach/thong_ke.php';
             } elseif ($action === 'quanLyPhieuMuon') {

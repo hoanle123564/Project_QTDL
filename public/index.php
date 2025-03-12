@@ -63,7 +63,7 @@ switch ($action) {
         $controller->quanLySach();
         break;
     case 'themPhieuMuon':
-        $controller = new SachController($conn);
+        $controller = new PhieuMuonController($conn);
         $controller->themPhieuMuon();
         break;
     case 'thongKe':
