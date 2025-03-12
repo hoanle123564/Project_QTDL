@@ -99,6 +99,8 @@
                 require_once __DIR__ . '/../sach/quan_ly_sach.php';
             } elseif ($action === 'quanLyDocGia') {
                 require_once __DIR__ . '/../doc_gia/quan_ly_doc_gia.php';
+            } elseif ($action === 'dangKyDocGia') {
+                require_once __DIR__ . '/../doc_gia/dang_ky.php';
             } elseif ($action === 'themPhieuMuon') {
                 require_once __DIR__ . '/../sach/them_phieu_muon.php';
             } elseif ($action === 'thongKe') {
@@ -111,6 +113,8 @@
                 require_once __DIR__ . '/../sach/them_sach.php';
             } elseif ($action === 'SuaSach') {
                 require_once __DIR__ . '/../sach/sua sach.php';
+            } elseif ($action === 'SuaDocGia') {
+                require_once __DIR__ . '/../doc_gia/sua_doc_gia.php';
             }
             
         }

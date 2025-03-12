@@ -60,15 +60,17 @@ class DocGia {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function layThongTinDocGia($maDocGia) {
-        $sql = "SELECT * FROM DocGia WHERE MaDocGia = :maDocGia";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([':maDocGia' => $maDocGia]);
-    }
+    
     public function kiemTraSdtTonTai($sdt) {
         $sql = "SELECT COUNT(*) FROM DocGia WHERE SoDienThoai = :sdt";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':sdt' => $sdt]);
         return $stmt->fetchColumn() > 0;
+    }
+    public function layThongTinDocGia($maDocGia) {
+        $sql = "SELECT * FROM DocGia WHERE MaDocGia = :maDocGia";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maDocGia' => $maDocGia]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

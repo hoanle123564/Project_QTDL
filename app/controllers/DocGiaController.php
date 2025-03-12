@@ -5,7 +5,7 @@ use App\Models\DocGia;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PDO;
-use Exception;
+use PDOException;
 
 class DocGiaController {
     private $conn;
@@ -27,15 +27,16 @@ class DocGiaController {
         $docGiaList = $this->docgia->danhSachDocGia();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                if (isset($_POST['xoa'])) {
-                    $maDocGia = $_POST['ma_doc_gia'] ?? '';
-                    if ($this->docgia->xoaDocGia($maDocGia)) {
-                        $thong_bao = "Xóa sách thành công!";
-                        $docGiaList = $this->docgia->danhSachDocGia();
-                    } else {
-                        $errors[] = "Lỗi khi xóa sách!";
-                    }
+            if (isset($_POST['xoa'])) {
+                $maDocGia = $_POST['ma_doc_gia'] ?? '';
+                
+                if ($this->docgia->xoaDocGia($maDocGia)) {
+                    $thong_bao = "Xóa độc giả thành công!";
+                    $docGiaList = $this->docgia->danhSachDocGia();
+                } else {
+                    $errors[] = "Lỗi khi xóa độc giả!";
                 }
+            }
 
             if (isset($_POST['tim_kiem'])) {
                 $tuKhoa = trim($_POST['tu_khoa'] ?? '');
@@ -46,8 +47,8 @@ class DocGiaController {
             }
             
             if (isset($_POST['sua'])) {
-                $suaDocGia = trim($_POST['tu_khoa'] ?? '');
-                $docGiaList = $this->docgia->timKiemDocGia($suaDocGia);
+                $maDocGia = trim($_POST['ma_doc_gia'] ?? '');
+                $docGiaList = $this->docgia->layThongTinDocGia($maDocGia);
             }
         }
 
@@ -124,59 +125,73 @@ class DocGiaController {
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';
     }
-    public function themSach() {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /public/?action=dangNhap");
-            die();
-        }
-        
+    public function dangKyDocGia() {
         $errors = [];
         $thong_bao = '';
-        
+        $ten_doc_gia = '';
+        $ngay_sinh = '';
+        $so_dt = '';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $tenDocGia = trim($_POST['ten_doc_gia'] ?? '');
-            $ngaySinh = trim ($_POST['ngay_sinh'] ?? '');
-            $soDT = trim($_POST['sdt']) ?? '';
+            $ten_doc_gia = trim($_POST['ten_doc_gia'] ?? '');
+            $ngay_sinh = $_POST['ngay_sinh'] ?? '';
+            $so_dt = trim($_POST['so_dt'] ?? '');
+            // $captcha_input = $_POST['captcha'] ?? '';
+            // $captcha_session = $_SESSION['captcha'] ?? '';
 
-            if (empty($tenDocGia)) $errors[] = "Tên độc giả không được để trống!";
-            if (empty($ngaySinh)) $errors[] = "Ngày sinh không được để trống";
-            if (empty($soDT)) $errors[] = "Số điện thoại không được để trống!";
-    
+            if (empty($ten_doc_gia)) $errors[] = "Tên độc giả không được để trống!";
+            if (empty($ngay_sinh)) $errors[] = "Ngày sinh không được để trống!";
+            if (empty($so_dt)) $errors[] = "Số điện thoại không được để trống!";
+            // if ($captcha_input !== $captcha_session) $errors[] = "Mã captcha không đúng!";
+
             if (empty($errors)) {
-                if ($this->docgia->themDocGia($tenDocGia, $ngaySinh, $soDT)) {
-                    header("Location: ?action=quanLyDocGia"); 
-                    exit();                
-                } else {
-                    $errors[] = "Lỗi khi thêm sách!";
+                $sql = "INSERT INTO DocGia (TenDocGia, NgaySinh, SoDienThoai) 
+                        VALUES (:ten_doc_gia, :ngay_sinh, :so_dt)";
+                $stmt = $this->conn->prepare($sql);
+                try {
+                    $stmt->execute([
+                        ':ten_doc_gia' => $ten_doc_gia,
+                        ':ngay_sinh' => $ngay_sinh,
+                        ':so_dt' => $so_dt
+                    ]);
+                    $thong_bao = "Đăng ký tài khoản cho độc giả thành công!";
+                    $ten_dang_nhap = '';
+                    $ho_ten = '';
+                } catch (PDOException $e) {
+                    if ($e->getCode() == 23000) { // Duplicate entry
+                        $errors[] = "Tên độc giả đã tồn tại!";
+                    } else {
+                        $errors[] = "Lỗi khi đăng ký: " . $e->getMessage();
+                    }
                 }
             }
         }
-    
+
         $data = [
-            'action' => 'themSach',
+            'action' => 'dangKyDocGia',
             'errors' => $errors,
-            'thong_bao' => $thong_bao
+            'thong_bao' => $thong_bao,
+            'ten_doc_gia' => $ten_doc_gia,
+            'ngay_sinh' => $ngay_sinh,
+            'so_dt' => $so_dt
         ];
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';
-
     }
 
-    public function SuaSach() {
+    public function SuaDocGia() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
             die();
         }
        
-
         $errors = [];
         $thong_bao = '';
-        $isAdmin = $_SESSION['user']['VaiTro'] === 'admin';
         
         $maDocGia = $_GET['ma_doc_gia'] ?? '';
+        // echo !empty($maDocGia); exit();
 
-        if (!empty($maSach)) {
+        if (!empty($maDocGia)) {
             $docGiaChiTiet = $this->docgia->layThongTinDocGia($maDocGia);
         }
 
@@ -184,30 +199,28 @@ class DocGiaController {
             if (isset($_POST['sua'])) {
                 $tenDocGia = trim($_POST['ten_doc_gia'] ?? '');
                 $ngaySinh = trim ($_POST['ngay_sinh'] ?? '');
-                $soDT = trim($_POST['sdt']) ?? '';
+                $soDT = trim($_POST['so_dt']) ?? '';
 
-                if (empty($tenSach)) $errors[] = "Tên sách không được để trống!";
-                if (empty($tenTacGia)) $errors[] = "Tác giả không được để trống";
-                if (empty($maTheLoai)) $errors[] = "Thể loại không được để trống!";
-                if (empty($soLuong) || !is_numeric($soLuong)) $errors[] = "Số lượng không hợp lệ!";
+                if (empty($tenDocGia)) $errors[] = "Tên độc giả không được để trống!";
+                if (empty($ngaySinh)) $errors[] = "Ngày sinh không được để trống";
+                if (empty($soDT)) $errors[] = "Số điện thoại không được để trống!";
 
                 if (empty($errors)) {
                     if ($this->docgia->suaDocGia($maDocGia, $tenDocGia, $ngaySinh, $soDT)) {
                         header("Location: ?action=quanLyDocGia"); 
                         exit();
                     } else {
-                        $errors[] = "Lỗi khi sửa sách!";
+                        $errors[] = "Lỗi khi sửa thông tin độc giả!";
                     }
                 }
             } 
         }
 
         $data = [
-            'action' => 'SuaSach',
+            'action' => 'SuaDocGia',
             'errors' => $errors,
             'thong_bao' => $thong_bao,
-            'sachChiTiet' => $sachChiTiet ?? null,
-            'isAdmin' => $isAdmin
+            'docGiaChiTiet' => $docGiaChiTiet ?? null,
         ];
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';

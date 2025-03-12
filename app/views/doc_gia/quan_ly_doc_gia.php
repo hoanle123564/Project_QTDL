@@ -17,7 +17,7 @@
 <!-- Tìm kiếm và thêm sách -->
 <form method="POST" class="mt-4 d-flex">
     <div class="input-group mb-3 ">
-        <a class="btn btn-primary me-4" href="?action=dangKy" name="them_doc_gia"></i> Thêm độc giả</a>
+        <a class="btn btn-primary me-4" href="?action=dangKyDocGia" name="them_doc_gia"></i> Thêm độc giả</a>
         <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm độc giả">
         <button type="submit" name="tim_kiem" class="btn btn-outline-secondary">Tìm</button>
     </div>
@@ -72,19 +72,19 @@
                         class="form-control d-inline-block w-auto" required>
 
                 </form> -->
-                <!-- <form method="POST" value="<?php echo $sach['MaSach']; ?>">
-                    <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
-                    <input type="hidden" name="ten_sach" value="<?php echo htmlspecialchars($sach['TenSach']); ?>">
+                <form method="POST" value="<?php echo $docgia['MaDocGia']; ?>">
+                    <input type="hidden" name="ma_doc_gia" value="<?php echo $docgia['MaDocGia']; ?>">
+                    <!-- <input type="hidden" name="ten_sach" value="<?php echo htmlspecialchars($sach['TenSach']); ?>">
                     <input type="hidden" name="ma_tac_gia" value="<?php echo $sach['MaTacGia']; ?>">
                     <input type="hidden" name="ma_the_loai" value="<?php echo $sach['MaTheLoai']; ?>">
                     <input type="hidden" name="nam_xuat_ban" value="<?php echo $sach['NamXuatBan']; ?>">
-                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>">
+                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>"> -->
                     <!-- btn -->
                     <a href="?action=SuaDocGia&ma_doc_gia=<?php echo $docgia['MaDocGia']; ?>"
                         class="btn btn-warning btn-sm">Sửa</a>
                     <!-- <button type="submit" name="sua" class="btn btn-warning btn-sm">Sửa</button> -->
                     <button type="submit" name="xoa" class="btn btn-danger btn-sm"
-                        onclick="return confirm('Xóa sách này?')">Xóa</button>
+                        onclick="return confirm('Xóa độc giả này?')">Xóa</button>
                 </form>
             </td>
         </tr>

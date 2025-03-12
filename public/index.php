@@ -50,6 +50,14 @@ switch ($action) {
         $controller = new DocGiaController($conn);
         $controller->quanLyDocGia();
         break;
+    case 'dangKyDocGia':
+        $controller = new DocGiaController($conn);
+        $controller->dangKyDocGia();
+        break;
+    case 'SuaDocGia':
+        $controller = new DocGiaController($conn);
+        $controller->SuaDocGia();
+        break;
     case 'quanLySach':
         $controller = new SachController($conn);
         $controller->quanLySach();
@@ -88,6 +96,7 @@ switch ($action) {
         $controller = new SachController($conn);
         $controller->SuaSach();
         break;
+   
     default:
         $data = ['action' => 'trangChu'];
         extract($data);
