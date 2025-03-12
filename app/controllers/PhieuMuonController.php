@@ -168,7 +168,7 @@ class PhieuMuonController
     
             $sql = "SELECT KiemTraSoLuongSach(:maSach) as SoLuongCon";
             $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':maSach' => $maSach]);
+            $stmt->execute( [':maSach' => $maSach]);
             $soLuongCon = $stmt->fetch(PDO::FETCH_ASSOC)['SoLuongCon'];
     
             if ($soLuongCon < $soLuongMuon) {
