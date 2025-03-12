@@ -126,13 +126,13 @@ DROP FUNCTION IF EXISTS KiemTraSoLuongSach //
 CREATE FUNCTION KiemTraSoLuongSach(inp_maSach INT) RETURNS INT
 DETERMINISTIC
 BEGIN
-    DECLARE sl INT;
-	SELECT SoLuong INTO sl FROM Sach WHERE MaSach = inp_maSach;
-	RETURN sl;
+    DECLARE sl INT DEFAULT 0;
+    SELECT COALESCE(MAX(SoLuong), 0) INTO sl FROM Sach WHERE MaSach = inp_maSach;
+    RETURN sl;
 END //
 DELIMITER ;
 SELECT KiemTraSoLuongSach(1) as SoLuongCon;
-SELECT SoLuong FROM SACH WHERE MaSach = 1
+SELECT SoLuong FROM SACH WHERE MaSach = 1;
 -- Trigger: Tính tiền phạt khi trả sách muộn
 DELIMITER //
 CREATE TRIGGER TinhTienPhat
