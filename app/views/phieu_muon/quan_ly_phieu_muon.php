@@ -17,7 +17,7 @@
 <!-- Tìm kiếm và thêm sách -->
 <form method="POST" class="mt-4 d-flex">
     <div class="input-group mb-3 ">
-        <a class="btn btn-primary me-4" href="?action=themSach" name="them_sach"></i> Thêm sách</a>
+        <a class="btn btn-primary me-4" href="?action=themPhieuMuon" name="them_sach"></i> Thêm phiếu mượn</a>
         <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm sách">
         <button type="submit" name="tim_kiem" class="btn btn-outline-secondary">Tìm</button>
     </div>
