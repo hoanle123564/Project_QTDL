@@ -90,7 +90,7 @@ class AuthController {
                 $user = $this->nguoiDung->kiemTraDangNhap($ten_dang_nhap, $mat_khau);
                 if ($user) {
                     $_SESSION['user'] = $user;
-                    header("Location: /ct467-project/public/?action=quanLySach");
+                    header("Location: /public/?action=trangChu");
                     exit;
                 } else {
                     $errors[] = "Tên đăng nhập hoặc mật khẩu không đúng!";
@@ -110,7 +110,7 @@ class AuthController {
 
     public function dangXuat() {
         session_destroy();
-        header("Location: /ct467-project/public/?action=trangChu");
+        header("Location: /public/?action=trangChu");
         exit;
     }
 

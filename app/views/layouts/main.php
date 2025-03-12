@@ -28,7 +28,6 @@
             ?></title>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/ct467-project/public/styles.css" rel="stylesheet"> <!-- Thêm CSS -->
     <?php require_once '../db_connect.php'?>
 
 </head>

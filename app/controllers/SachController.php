@@ -105,7 +105,7 @@ class SachController {
 
     public function themPhieuMuon() {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             exit;
         }
     
@@ -163,7 +163,7 @@ class SachController {
 
     public function thongKe() {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             exit;
         }
     
@@ -190,7 +190,7 @@ class SachController {
     }
     public function themSach() {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             die();
         }
         
@@ -233,7 +233,7 @@ class SachController {
 
     public function SuaSach() {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             die();
         }
        
