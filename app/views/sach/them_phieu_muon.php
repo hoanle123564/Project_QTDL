@@ -14,20 +14,17 @@
 <?php endif; ?>
 
 <form method="POST" class="mt-4">
-
     <div class="mb-3">
         <label for="ma_doc_gia" class="form-label">Độc giả</label>
-        <input type="text" class="form-control" id="ma_doc_gia" name="ma_doc_gia" placeholder="Nhập tên">
-        <!-- <select class="form-control" id="ma_doc_gia" name="ma_doc_gia">
+        <select class="form-control" id="ma_doc_gia" name="ma_doc_gia">
             <?php
             $stmt = $conn->query("SELECT * FROM DocGia");
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<option value='{$row['MaDocGia']}'>{$row['TenDocGia']}</option>";
             }
             ?>
-        </select> -->
+        </select>
     </div>
-    <?php echo "hello"?>
 
     <div class="mb-3">
         <label for="ma_sach" class="form-label">Sách</label>
