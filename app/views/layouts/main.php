@@ -92,7 +92,7 @@
             } elseif ($action === 'quanLySach') {
                 require_once __DIR__ . '/../sach/quan_ly_sach.php';
             } elseif ($action === 'themPhieuMuon') {
-                require_once __DIR__ . '/../sach/them_phieu_muon.php';
+                require_once __DIR__ . '/../phieu_muon/them_phieu_muon.php';
             } elseif ($action === 'thongKe') {
                 require_once __DIR__ . '/../sach/thong_ke.php';
             } elseif ($action === 'quanLyPhieuMuon') {

@@ -30,4 +30,5 @@ class PhieuMuon {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
     }
+   
 }

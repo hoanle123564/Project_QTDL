@@ -153,4 +153,63 @@ class PhieuMuonController
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';
     }
+
+    public function themPhieuMuon() {
+        if (!isset($_SESSION['user'])) {
+            header("Location: /public/?action=dangNhap");
+            exit;
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if(isset($_POST['them_phieu'])){
+            $maDocGia = $_POST['ma_doc_gia'] ?? '';
+            $maSach = $_POST['ma_sach'] ?? '';
+            $soLuongMuon = $_POST['so_luong_muon'] ?? '';
+    
+            $sql = "SELECT KiemTraSoLuongSach(:maSach) as SoLuongCon";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':maSach' => $maSach]);
+            $soLuongCon = $stmt->fetch(PDO::FETCH_ASSOC)['SoLuongCon'];
+    
+            if ($soLuongCon < $soLuongMuon) {
+                $errors[] = "Số lượng sách không đủ để mượn!";
+            } else {
+                $this->conn->beginTransaction();
+                try {
+                    $sql = "INSERT INTO PhieuMuon (MaDocGia, NgayMuon, NgayTra, TrangThai) 
+                            VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Đang mượn')";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([':maDocGia' => $maDocGia]);
+                    $maPhieuMuon = $this->conn->lastInsertId();
+    
+                    $sql = "INSERT INTO ChiTietPhieuMuon (MaPhieuMuon, MaSach, SoLuongMuon) 
+                            VALUES (:maPhieuMuon, :maSach, :soLuongMuon)";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([
+                        ':maPhieuMuon' => $maPhieuMuon,
+                        ':maSach' => $maSach,
+                        ':soLuongMuon' => $soLuongMuon
+                    ]);
+    
+                    $sql = "UPDATE Sach SET SoLuong = SoLuong - :soLuongMuon WHERE MaSach = :maSach";
+                    $stmt = $this->conn->prepare($sql);
+                    $stmt->execute([':soLuongMuon' => $soLuongMuon, ':maSach' => $maSach]);
+    
+                    $this->conn->commit();
+                    $thong_bao = "Thêm phiếu mượn thành công!";
+                } catch (Exception $e) {
+                    $this->conn->rollBack();
+                    $errors[] = "Lỗi khi thêm phiếu mượn: " . $e->getMessage();
+                }
+            }}
+        }
+    
+        $data = [
+            'action' => 'themPhieuMuon',
+            'errors' => $errors ?? [],
+            'thong_bao' => $thong_bao ?? ''
+        ];
+        extract($data);
+        require_once __DIR__ . '/../views/layouts/main.php';
+    }
 }

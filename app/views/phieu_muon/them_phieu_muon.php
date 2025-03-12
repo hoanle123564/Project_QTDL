@@ -13,21 +13,20 @@
 <div class="alert alert-success"><?php echo $thong_bao; ?></div>
 <?php endif; ?>
 
-<form method="POST" class="mt-4">
+<form method="POST" class="mt-3 col-md-5 offset-md-3">
 
     <div class="mb-3">
         <label for="ma_doc_gia" class="form-label">Độc giả</label>
-        <input type="text" class="form-control" id="ma_doc_gia" name="ma_doc_gia" placeholder="Nhập tên">
-        <!-- <select class="form-control" id="ma_doc_gia" name="ma_doc_gia">
+        <!-- <input type="text" class="form-control" id="ma_doc_gia" name="ma_doc_gia" placeholder="Nhập tên"> -->
+        <select class="form-control" id="ma_doc_gia" name="ma_doc_gia">
             <?php
             $stmt = $conn->query("SELECT * FROM DocGia");
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo "<option value='{$row['MaDocGia']}'>{$row['TenDocGia']}</option>";
             }
             ?>
-        </select> -->
+        </select>
     </div>
-    <?php echo "hello"?>
 
     <div class="mb-3">
         <label for="ma_sach" class="form-label">Sách</label>
@@ -42,7 +41,7 @@
     </div>
     <div class="mb-3">
         <label for="so_luong_muon" class="form-label">Số lượng mượn</label>
-        <input type="number" class="form-control" id="so_luong_muon" name="so_luong_muon" min="1" required>
+        <input type="text" class="form-control" id="so_luong_muon" name="so_luong_muon" min="1" required>
     </div>
-    <button type="submit" class="btn btn-primary">Thêm phiếu mượn</button>
+    <button type="submit" class="btn btn-primary" name="them_phieu">Thêm phiếu mượn</button>
 </form>
