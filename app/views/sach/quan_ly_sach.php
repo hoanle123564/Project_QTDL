@@ -79,12 +79,12 @@
 
                 </form> -->
                 <form method="POST" value="<?php echo $sach['MaSach']; ?>">
-                    <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
+                    <!-- <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
                     <input type="hidden" name="ten_sach" value="<?php echo htmlspecialchars($sach['TenSach']); ?>">
                     <input type="hidden" name="ma_tac_gia" value="<?php echo $sach['MaTacGia']; ?>">
                     <input type="hidden" name="ma_the_loai" value="<?php echo $sach['MaTheLoai']; ?>">
                     <input type="hidden" name="nam_xuat_ban" value="<?php echo $sach['NamXuatBan']; ?>">
-                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>">
+                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>"> -->
                     <!-- btn -->
                     <a href="?action=SuaSach&ma_sach=<?php echo $sach['MaSach']; ?>"
                         class="btn btn-warning btn-sm">Sửa</a>

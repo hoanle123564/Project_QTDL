@@ -6,8 +6,10 @@ session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 use App\Controllers\AuthController;
+use App\Controllers\DocGiaController;
 use App\Controllers\SachController;
 use App\Controllers\PhieuMuonController;
+
 $config = require_once __DIR__ . '/../config/database.php';
 try {
     $conn = new PDO(
@@ -43,6 +45,10 @@ switch ($action) {
     case 'captcha':
         $controller = new AuthController($conn);
         $controller->captcha();
+        break;
+    case 'quanLyDocGia':
+        $controller = new DocGiaController($conn);
+        $controller->quanLyDocGia();
         break;
     case 'quanLySach':
         $controller = new SachController($conn);
