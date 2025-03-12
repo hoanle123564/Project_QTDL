@@ -16,6 +16,9 @@
                 case 'quanLySach':
                     echo 'Quản lý sách';
                     break;
+                case 'quanLyDocGia':
+                    echo 'Quản lý độc giả';
+                    break;
                 case 'themPhieuMuon':
                     echo 'Thêm phiếu mượn';
                     break;
@@ -55,6 +58,9 @@
                     </li>
                     <?php else: ?>
                     <li class="nav-item">
+                        <a class="nav-link" href="?action=quanLyDocGia">Quản lý độc giả</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="?action=quanLySach">Quản lý sách</a>
                     </li>
                     <li class="nav-item">
@@ -91,6 +97,8 @@
                 require_once __DIR__ . '/../auth/dang_nhap.php';
             } elseif ($action === 'quanLySach') {
                 require_once __DIR__ . '/../sach/quan_ly_sach.php';
+            } elseif ($action === 'quanLyDocGia') {
+                require_once __DIR__ . '/../doc_gia/quan_ly_doc_gia.php';
             } elseif ($action === 'themPhieuMuon') {
                 require_once __DIR__ . '/../phieu_muon/them_phieu_muon.php';
             } elseif ($action === 'thongKe') {

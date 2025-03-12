@@ -1,4 +1,4 @@
-<h2 class="text-center">Quản lý sách</h2>
+<h2 class="text-center">Quản lý độc giả</h2>
 <?php if (!empty($errors)): ?>
 <div class="alert alert-danger">
     <ul>
@@ -17,8 +17,8 @@
 <!-- Tìm kiếm và thêm sách -->
 <form method="POST" class="mt-4 d-flex">
     <div class="input-group mb-3 ">
-        <a class="btn btn-primary me-4" href="?action=themSach" name="them_sach"></i> Thêm sách</a>
-        <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm sách">
+        <a class="btn btn-primary me-4" href="?action=dangKy" name="them_doc_gia"></i> Thêm độc giả</a>
+        <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm độc giả">
         <button type="submit" name="tim_kiem" class="btn btn-outline-secondary">Tìm</button>
     </div>
 </form>
@@ -27,30 +27,24 @@
 <table class="table table-striped mt-4">
     <thead>
         <tr>
-            <th>Mã Sách</th>
-            <th>Tên Sách</th>
-            <th>Tác Giả</th>
-            <th>Thể Loại</th>
-            <th>Năm Xuất Bản</th>
-            <th>Nhà Xuất Bản</th>
-            <th>Số Lượng</th>
+            <th>Mã độc giả</th>
+            <th>Tên độc giả</th>
+            <th>Ngày sinh</th>
+            <th>Số điện thoại</th>
             <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($sachList as $sach): ?>
+        <?php foreach ($docGiaList as $docgia): ?>
         <tr>
-            <td><?php echo $sach['MaSach']; ?></td>
-            <td><?php echo $sach['TenSach']; ?></td>
-            <td><?php echo $sach['TenTacGia']; ?></td>
-            <td><?php echo $sach['TenTheLoai']; ?></td>
-            <td><?php echo $sach['NamXuatBan']; ?></td>
-            <td><?php echo $sach['NhaXuatBan']; ?></td>
-            <td><?php echo $sach['SoLuong']; ?></td>
+            <td><?php echo $docgia['MaDocGia']; ?></td>
+            <td><?php echo $docgia['TenDocGia']; ?></td>
+            <td><?php echo $docgia['NgaySinh']; ?></td>
+            <td><?php echo $docgia['SoDienThoai']; ?></td>
             <td>
                 <!-- <form method="POST" style="display:inline;">
-                    <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
-                    <input type="text" name="ten_sach" value="<?php echo htmlspecialchars($sach['TenSach']); ?>"
+                    <input type="hidden" name="ma_sach" value="<?php echo $docgia['MaDocGia']; ?>">
+                    <input type="text" name="ten_sach" value="<?php echo htmlspecialchars($docgia['TenDocGia']); ?>"
                         class="form-control d-inline-block w-auto" required>
                     <select name="ma_tac_gia" class="form-control d-inline-block w-auto" required>
                         <?php
@@ -78,15 +72,15 @@
                         class="form-control d-inline-block w-auto" required>
 
                 </form> -->
-                <form method="POST" value="<?php echo $sach['MaSach']; ?>">
-                    <!-- <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
+                <!-- <form method="POST" value="<?php echo $sach['MaSach']; ?>">
+                    <input type="hidden" name="ma_sach" value="<?php echo $sach['MaSach']; ?>">
                     <input type="hidden" name="ten_sach" value="<?php echo htmlspecialchars($sach['TenSach']); ?>">
                     <input type="hidden" name="ma_tac_gia" value="<?php echo $sach['MaTacGia']; ?>">
                     <input type="hidden" name="ma_the_loai" value="<?php echo $sach['MaTheLoai']; ?>">
                     <input type="hidden" name="nam_xuat_ban" value="<?php echo $sach['NamXuatBan']; ?>">
-                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>"> -->
+                    <input type="hidden" name="so_luong" value="<?php echo $sach['SoLuong']; ?>">
                     <!-- btn -->
-                    <a href="?action=SuaSach&ma_sach=<?php echo $sach['MaSach']; ?>"
+                    <a href="?action=SuaDocGia&ma_doc_gia=<?php echo $docgia['MaDocGia']; ?>"
                         class="btn btn-warning btn-sm">Sửa</a>
                     <!-- <button type="submit" name="sua" class="btn btn-warning btn-sm">Sửa</button> -->
                     <button type="submit" name="xoa" class="btn btn-danger btn-sm"

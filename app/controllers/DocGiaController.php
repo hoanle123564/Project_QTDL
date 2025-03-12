@@ -1,22 +1,22 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Sach;
+use App\Models\DocGia;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PDO;
 use Exception;
 
-class SachController {
+class DocGiaController {
     private $conn;
-    public $sach;
+    public $docgia;
 
     public function __construct($conn) {
         $this->conn = $conn;
-        $this->sach = new Sach($conn);
+        $this->docgia = new DocGia($conn);
     }
 
-    public function quanLySach() {
+    public function quanLyDocGia() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
             die();
@@ -24,15 +24,14 @@ class SachController {
 
         $errors = [];
         $thong_bao = '';
-        $sachList = $this->sach->danhSachSach();
-        $isAdmin = $_SESSION['user']['VaiTro'] === 'admin';
+        $docGiaList = $this->docgia->danhSachDocGia();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (isset($_POST['xoa'])) {
-                    $maSach = $_POST['ma_sach'] ?? '';
-                    if ($this->sach->xoaSach($maSach)) {
+                    $maDocGia = $_POST['ma_doc_gia'] ?? '';
+                    if ($this->docgia->xoaDocGia($maDocGia)) {
                         $thong_bao = "Xóa sách thành công!";
-                        $sachList = $this->sach->danhSachSach();
+                        $docGiaList = $this->docgia->danhSachDocGia();
                     } else {
                         $errors[] = "Lỗi khi xóa sách!";
                     }
@@ -40,24 +39,23 @@ class SachController {
 
             if (isset($_POST['tim_kiem'])) {
                 $tuKhoa = trim($_POST['tu_khoa'] ?? '');
-                $sachList = $this->sach->timKiemSach($tuKhoa);
+                $docGiaList = $this->docgia->timKiemDocGia($tuKhoa);
             } elseif (isset($_POST['xuat_excel'])) {
-                $this->xuatExcelSach($sachList);
+                $this->xuatExcelSach($docGiaList);
                 die();
             }
             
             if (isset($_POST['sua'])) {
-                $suaSach = trim($_POST['tu_khoa'] ?? '');
-                $sachList = $this->sach->timKiemSach($suaSach);
+                $suaDocGia = trim($_POST['tu_khoa'] ?? '');
+                $docGiaList = $this->docgia->timKiemDocGia($suaDocGia);
             }
         }
 
         $data = [
-            'action' => 'quanLySach',
+            'action' => 'quanLyDocGia',
             'errors' => $errors,
             'thong_bao' => $thong_bao,
-            'sachList' => $sachList,
-            'isAdmin' => $isAdmin
+            'docGiaList' => $docGiaList,
         ];
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';
@@ -68,23 +66,20 @@ class SachController {
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Mã Sách');
-        $sheet->setCellValue('B1', 'Tên Sách');
-        $sheet->setCellValue('C1', 'Tác Giả');
-        $sheet->setCellValue('D1', 'Thể Loại');
+        $sheet->setCellValue('A1', 'Mã Độc Giả');
+        $sheet->setCellValue('B1', 'Tên Độc Giả');
+        $sheet->setCellValue('C1', 'Ngày Sinh');
+        $sheet->setCellValue('D1', 'Số Điện Thoại');
         $sheet->setCellValue('E1', 'Năm Xuất Bản');
         $sheet->setCellValue('F1', 'Nhà Xuất Bản');
         $sheet->setCellValue('G1', 'Số Lượng');
 
         $row = 2;
         foreach ($sachList as $sach) {
-            $sheet->setCellValue("A$row", $sach['MaSach']);
-            $sheet->setCellValue("B$row", $sach['TenSach']);
-            $sheet->setCellValue("C$row", $sach['TenTacGia']);
-            $sheet->setCellValue("D$row", $sach['TenTheLoai']);
-            $sheet->setCellValue("E$row", $sach['NamXuatBan']);
-            $sheet->setCellValue("F$row", $sach['NhaXuatBan']);
-            $sheet->setCellValue("G$row", $sach['SoLuong']);
+            $sheet->setCellValue("A$row", $sach['MaDocGia']);
+            $sheet->setCellValue("B$row", $sach['TenDocGia']);
+            $sheet->setCellValue("C$row", $sach['NgaySinh']);
+            $sheet->setCellValue("D$row", $sach['SoDienThoai']);
             $row++;
         }
 
@@ -140,21 +135,17 @@ class SachController {
         
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $tenSach = trim($_POST['ten_sach'] ?? '');
-            $tenTacGia =trim ($_POST['ten_tac_gia'] ?? '');
-            $maTheLoai = $_POST['ma_the_loai'] ?? '';
-            $namXuatBan = $_POST['nam_xuat_ban'] ?? '';
-            $nhaXuatBan = trim($_POST['nha_xuat_ban'] ?? '');
-            $soLuong = $_POST['so_luong'] ?? '';
+            $tenDocGia = trim($_POST['ten_doc_gia'] ?? '');
+            $ngaySinh = trim ($_POST['ngay_sinh'] ?? '');
+            $soDT = trim($_POST['sdt']) ?? '';
 
-            if (empty($tenSach)) $errors[] = "Tên sách không được để trống!";
-            if (empty($tenTacGia)) $errors[] = "Tác giả không được để trống";
-            if (empty($maTheLoai)) $errors[] = "Thể loại không được để trống!";
-            if (empty($soLuong) || !is_numeric($soLuong)) $errors[] = "Số lượng không hợp lệ!";
+            if (empty($tenDocGia)) $errors[] = "Tên độc giả không được để trống!";
+            if (empty($ngaySinh)) $errors[] = "Ngày sinh không được để trống";
+            if (empty($soDT)) $errors[] = "Số điện thoại không được để trống!";
     
             if (empty($errors)) {
-                if ($this->sach->themSach($tenSach, $tenTacGia, $maTheLoai, $namXuatBan, $nhaXuatBan, $soLuong)) {
-                    header("Location: ?action=quanLySach"); 
+                if ($this->docgia->themDocGia($tenDocGia, $ngaySinh, $soDT)) {
+                    header("Location: ?action=quanLyDocGia"); 
                     exit();                
                 } else {
                     $errors[] = "Lỗi khi thêm sách!";
@@ -183,29 +174,26 @@ class SachController {
         $thong_bao = '';
         $isAdmin = $_SESSION['user']['VaiTro'] === 'admin';
         
-        $maSach = $_GET['ma_sach'] ?? '';
+        $maDocGia = $_GET['ma_doc_gia'] ?? '';
 
         if (!empty($maSach)) {
-            $sachChiTiet = $this->sach->layThongTinSach($maSach);
+            $docGiaChiTiet = $this->docgia->layThongTinDocGia($maDocGia);
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (isset($_POST['sua'])) {
-            $tenSach = trim($_POST['ten_sach'] ?? '');
-            $tenTacGia =trim ($_POST['ten_tac_gia'] ?? '');
-            $maTheLoai = $_POST['ma_the_loai'] ?? '';
-            $namXuatBan = $_POST['nam_xuat_ban'] ?? '';
-            $nhaXuatBan = trim($_POST['nha_xuat_ban'] ?? '');
-            $soLuong = $_POST['so_luong'] ?? '';
+                $tenDocGia = trim($_POST['ten_doc_gia'] ?? '');
+                $ngaySinh = trim ($_POST['ngay_sinh'] ?? '');
+                $soDT = trim($_POST['sdt']) ?? '';
 
-            if (empty($tenSach)) $errors[] = "Tên sách không được để trống!";
-            if (empty($tenTacGia)) $errors[] = "Tác giả không được để trống";
-            if (empty($maTheLoai)) $errors[] = "Thể loại không được để trống!";
-            if (empty($soLuong) || !is_numeric($soLuong)) $errors[] = "Số lượng không hợp lệ!";
+                if (empty($tenSach)) $errors[] = "Tên sách không được để trống!";
+                if (empty($tenTacGia)) $errors[] = "Tác giả không được để trống";
+                if (empty($maTheLoai)) $errors[] = "Thể loại không được để trống!";
+                if (empty($soLuong) || !is_numeric($soLuong)) $errors[] = "Số lượng không hợp lệ!";
 
                 if (empty($errors)) {
-                    if ($this->sach->suaSach($maSach, $tenSach, $tenTacGia, $maTheLoai, $namXuatBan, $nhaXuatBan, $soLuong)) {
-                        header("Location: ?action=quanLySach"); 
+                    if ($this->docgia->suaDocGia($maDocGia, $tenDocGia, $ngaySinh, $soDT)) {
+                        header("Location: ?action=quanLyDocGia"); 
                         exit();
                     } else {
                         $errors[] = "Lỗi khi sửa sách!";

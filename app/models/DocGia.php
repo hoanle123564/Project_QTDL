@@ -1,6 +1,9 @@
 <?php
 namespace App\Models;
 
+use PDO;
+use PDOException;
+
 class DocGia {
     private $conn;
 
@@ -17,7 +20,51 @@ class DocGia {
             ':sdt' => $sdt
         ]);
     }
-
+    public function xoaDocGia($maDocGia) {
+        $sql = "DELETE FROM DocGia WHERE MaDocGia = :maDocGia";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':maDocGia' => $maDocGia]);
+    }
+    public function timKiemDocGia($tuKhoa) {
+        $sql = "SELECT * FROM DocGia WHERE TenDocGia LIKE :tuKhoa";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':tuKhoa' => "%$tuKhoa%"]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function suaDocGia($maDocGia, $tenDocGia, $ngaySinh, $soDT) {
+        try {
+            $this->conn->beginTransaction();
+    
+    
+            // Cập nhật thông tin sách
+            $sql = "UPDATE DocGia SET TenDocGia = :tenDocGia, NgaySinh = :ngaySinh, SoDienThoai = :soDT
+                    WHERE MaDocGia = :maDocGia";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':maDocGia' => $maDocGia,
+                ':tenDocGia' => $tenDocGia,
+                ':ngaySinh' => $ngaySinh,
+                ':soDT' => $soDT,
+            ]);
+    
+            $this->conn->commit();
+            return "Sửa sách thành công!";
+        } catch (PDOException $e) {
+            $this->conn->rollBack();
+            return "Lỗi khi sửa sách: " . $e->getMessage();
+        }
+    }
+    public function danhSachDocGia() {
+        $sql = "SELECT * FROM DocGia";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function layThongTinDocGia($maDocGia) {
+        $sql = "SELECT * FROM DocGia WHERE MaDocGia = :maDocGia";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':maDocGia' => $maDocGia]);
+    }
     public function kiemTraSdtTonTai($sdt) {
         $sql = "SELECT COUNT(*) FROM DocGia WHERE SoDienThoai = :sdt";
         $stmt = $this->conn->prepare($sql);
