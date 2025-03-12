@@ -1,0 +1,14 @@
+{
+    "name": "taoproject/ct467",
+    "description": "Hệ thống quản lý thư viện",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "gregwar/captcha": "^1.2",
+        "phpoffice/phpspreadsheet": "^4.1"
+    }
+}
