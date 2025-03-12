@@ -6,7 +6,7 @@
     <div class="col-md-4">
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Đăng ký độc giả</h5>
+                <h5 class="card-title">Thêm quản lý</h5>
                 <a href="?action=dangKy" class="btn btn-primary">Đi đến</a>
             </div>
         </div>
