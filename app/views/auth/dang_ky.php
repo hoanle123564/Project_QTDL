@@ -29,10 +29,10 @@
         <input type="text" class="form-control" id="ho_ten" name="ho_ten"
             value="<?php echo htmlspecialchars($ho_ten); ?>" required>
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <label class="form-label">Mã Captcha</label>
         <img src="?action=captcha" alt="Captcha" class="mb-2">
         <input type="text" class="form-control" name="captcha" required>
-    </div>
+    </div> -->
     <button type="submit" class="btn btn-primary">Đăng ký</button>
 </form>
