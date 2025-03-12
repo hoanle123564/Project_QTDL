@@ -21,7 +21,7 @@ class PhieuMuonController
 
     public function quanLyPhieuMuon() {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             exit;
         }
 
@@ -93,7 +93,7 @@ class PhieuMuonController
     public function traSach()
     {
         if (!isset($_SESSION['user'])) {
-            header("Location: /ct467-project/public/?action=dangNhap");
+            header("Location: /public/?action=dangNhap");
             exit;
         }
 

@@ -27,14 +27,14 @@ class AuthController {
             $ten_dang_nhap = trim($_POST['ten_dang_nhap'] ?? '');
             $mat_khau = $_POST['mat_khau'] ?? '';
             $ho_ten = trim($_POST['ho_ten'] ?? '');
-            $captcha_input = $_POST['captcha'] ?? '';
-            $captcha_session = $_SESSION['captcha'] ?? '';
+            // $captcha_input = $_POST['captcha'] ?? '';
+            // $captcha_session = $_SESSION['captcha'] ?? '';
 
             if (empty($ten_dang_nhap)) $errors[] = "Tên đăng nhập không được để trống!";
             if (empty($mat_khau)) $errors[] = "Mật khẩu không được để trống!";
             if (strlen($mat_khau) < 6) $errors[] = "Mật khẩu phải từ 6 ký tự trở lên!";
             if (empty($ho_ten)) $errors[] = "Họ tên không được để trống!";
-            if ($captcha_input !== $captcha_session) $errors[] = "Mã captcha không đúng!";
+            // if ($captcha_input !== $captcha_session) $errors[] = "Mã captcha không đúng!";
 
             if (empty($errors)) {
                 $mat_khau_hash = password_hash($mat_khau, PASSWORD_DEFAULT);

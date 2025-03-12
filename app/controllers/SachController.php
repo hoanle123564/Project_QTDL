@@ -28,7 +28,6 @@ class SachController {
         $isAdmin = $_SESSION['user']['VaiTro'] === 'admin';
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if ($isAdmin) {
                 if (isset($_POST['xoa'])) {
                     $maSach = $_POST['ma_sach'] ?? '';
                     if ($this->sach->xoaSach($maSach)) {
@@ -38,7 +37,6 @@ class SachController {
                         $errors[] = "Lỗi khi xóa sách!";
                     }
                 }
-            }
 
             if (isset($_POST['tim_kiem'])) {
                 $tuKhoa = trim($_POST['tu_khoa'] ?? '');
