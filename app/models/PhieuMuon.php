@@ -45,5 +45,11 @@ class PhieuMuon {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
     }
-   
+    
+    public function capNhatTrangThaiPhieuMuon($maPhieuMuon) {
+        $sql = "UPDATE PhieuMuon SET TrangThai = 'Đã trả' WHERE MaPhieuMuon = :maPhieuMuon";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+    }
+    
 }

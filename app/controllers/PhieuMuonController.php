@@ -29,20 +29,16 @@ class PhieuMuonController
         $thong_bao = '';
         $phieuMuonList = $this->phieuMuon->danhSachPhieuMuon();
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['xoa'])) {
-                $maPhieuMuon = $_POST['ma_phieu_muon'] ?? '';
-                if ($this->phieuMuon->xoaPhieuMuon($maPhieuMuon)) {
-                    $thong_bao = "Xóa phiếu mượn thành công!";
-                    $phieuMuonList = $this->phieuMuon->danhSachPhieuMuon();
-                } else {
-                    $errors[] = "Lỗi khi xóa phiếu mượn!";
-                }
-            } elseif (isset($_POST['xuat_excel'])) {
-                $this->xuatExcelPhieuMuon($phieuMuonList); // Gọi hàm riêng
-                exit;
+        if (isset($_POST['capNhatTrangThai'])) {
+            $maPhieuMuon = $_POST['ma_phieu_muon'] ?? '';
+            if ($this->phieuMuon->capNhatTrangThaiPhieuMuon($maPhieuMuon)) {
+                $thong_bao = "Cập nhật trạng thái phiếu mượn thành 'Đã trả' thành công!";
+                $phieuMuonList = $this->phieuMuon->danhSachPhieuMuon();
+            } else {
+                $errors[] = "Lỗi khi cập nhật trạng thái phiếu mượn!";
             }
         }
+        
 
         $data = [
             'action' => 'quanLyPhieuMuon',

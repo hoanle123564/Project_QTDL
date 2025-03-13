@@ -35,7 +35,7 @@
             <?php
             $stmt = $conn->query("SELECT * FROM Sach WHERE SoLuong > 0");
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                echo "<option value='{$row['MaSach']}'>{$row['TenSach']}</option>";
+                echo "<option value='{$row['MaSach']}'>{$row['TenSach']} (Còn: {$row['SoLuong']})</option>";
             }
             ?>
         </select>

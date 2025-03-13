@@ -185,5 +185,3 @@ BEGIN
 END //
 DELIMITER ;
 --
-
-
