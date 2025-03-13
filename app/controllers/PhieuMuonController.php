@@ -177,7 +177,7 @@ class PhieuMuonController
                 $this->conn->beginTransaction();
                 try {
                     $sql = "INSERT INTO PhieuMuon (MaDocGia, NgayMuon, NgayTra, TrangThai) 
-                            VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Đang mượn')";
+                            VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL -1 DAY), 'Đang mượn')";
                     $stmt = $this->conn->prepare($sql);
                     $stmt->execute([':maDocGia' => $maDocGia]);
                     $maPhieuMuon = $this->conn->lastInsertId();

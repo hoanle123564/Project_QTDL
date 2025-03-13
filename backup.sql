@@ -133,6 +133,8 @@ END //
 DELIMITER ;
 SELECT KiemTraSoLuongSach(1) as SoLuongCon;
 SELECT SoLuong FROM SACH WHERE MaSach = 1;
+
+
 -- Trigger: Tính tiền phạt khi trả sách muộn
 DELIMITER //
 CREATE TRIGGER TinhTienPhat
@@ -149,7 +151,7 @@ BEGIN
     WHERE ctpm.MaChiTietPM = NEW.MaChiTietPM;
 
     -- Tính số ngày trễ
-    SET soNgayTre = DATEDIFF(NEW.NgayTraSach, ngayTraDuKien);
+    SET soNgayTre = DATEDIFF(CURDATE(), ngayTraDuKien);
     IF soNgayTre > 0 THEN
         SET NEW.TienPhat = soNgayTre * 1000; -- 1000 VNĐ/ngày
     ELSE
