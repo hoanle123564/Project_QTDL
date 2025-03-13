@@ -44,15 +44,16 @@
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav d-flex">
                     <li class="nav-item">
                         <a class="nav-link" href="?action=trangChu">Trang chủ</a>
                     </li>
+
+                    <?php if (!isset($_SESSION['user'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=dangKy">Đăng ký</a>
                     </li>
-                    <?php if (!isset($_SESSION['user'])): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=dangNhap">Đăng nhập</a>
                     </li>
@@ -62,9 +63,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=quanLySach">Quản lý sách</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="?action=themPhieuMuon">Thêm phiếu mượn</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=quanLyPhieuMuon">Quản lý phiếu mượn</a>
