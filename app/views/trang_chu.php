@@ -53,8 +53,8 @@
     <div class="col-md-4">
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Trả sách</h5>
-                <a href="?action=traSach" class="btn btn-primary">Đi đến</a>
+                <h5 class="card-title">Danh sách phiếu trả</h5>
+                <a href="?action=quanLyPhieuTra" class="btn btn-primary">Đi đến</a>
             </div>
         </div>
     </div>

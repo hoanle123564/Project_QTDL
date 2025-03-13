@@ -157,47 +157,47 @@ END //
 DELIMITER ;
 
 -- Transaction: Thêm phiếu mượn
-public function themPhieuMuon() {
-    if (!isset($_SESSION['user'])) {
-        header("Location: /public/?action=dangNhap");
-        exit;
-    }
+-- public function themPhieuMuon() {
+--     if (!isset($_SESSION['user'])) {
+--         header("Location: /public/?action=dangNhap");
+--         exit;
+--     }
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $maDocGia = $_POST['ma_doc_gia'] ?? '';
-        $maSach = $_POST['ma_sach'] ?? '';
-        $soLuongMuon = $_POST['so_luong_muon'] ?? '';
+--     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+--         $maDocGia = $_POST['ma_doc_gia'] ?? '';
+--         $maSach = $_POST['ma_sach'] ?? '';
+--         $soLuongMuon = $_POST['so_luong_muon'] ?? '';
 
-        $this->conn->beginTransaction();
-        try {
-            $sql = "INSERT INTO PhieuMuon (MaDocGia, NgayMuon, NgayTra, TrangThai) 
-                    VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Đang mượn')";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':maDocGia' => $maDocGia]);
-            $maPhieuMuon = $this->conn->lastInsertId();
+--         $this->conn->beginTransaction();
+--         try {
+--             $sql = "INSERT INTO PhieuMuon (MaDocGia, NgayMuon, NgayTra, TrangThai) 
+--                     VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Đang mượn')";
+--             $stmt = $this->conn->prepare($sql);
+--             $stmt->execute([':maDocGia' => $maDocGia]);
+--             $maPhieuMuon = $this->conn->lastInsertId();
 
-            $sql = "INSERT INTO ChiTietPhieuMuon (MaPhieuMuon, MaSach, SoLuongMuon) 
-                    VALUES (:maPhieuMuon, :maSach, :soLuongMuon)";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([
-                ':maPhieuMuon' => $maPhieuMuon,
-                ':maSach' => $maSach,
-                ':soLuongMuon' => $soLuongMuon
-            ]);
+--             $sql = "INSERT INTO ChiTietPhieuMuon (MaPhieuMuon, MaSach, SoLuongMuon) 
+--                     VALUES (:maPhieuMuon, :maSach, :soLuongMuon)";
+--             $stmt = $this->conn->prepare($sql);
+--             $stmt->execute([
+--                 ':maPhieuMuon' => $maPhieuMuon,
+--                 ':maSach' => $maSach,
+--                 ':soLuongMuon' => $soLuongMuon
+--             ]);
 
-            $sql = "UPDATE Sach SET SoLuong = SoLuong - :soLuongMuon WHERE MaSach = :maSach";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute([':soLuongMuon' => $soLuongMuon, ':maSach' => $maSach]);
+--             $sql = "UPDATE Sach SET SoLuong = SoLuong - :soLuongMuon WHERE MaSach = :maSach";
+--             $stmt = $this->conn->prepare($sql);
+--             $stmt->execute([':soLuongMuon' => $soLuongMuon, ':maSach' => $maSach]);
 
-            $this->conn->commit();
-            $thong_bao = "Thêm phiếu mượn thành công!";
-        } catch (Exception $e) {
-            $this->conn->rollBack();
-            $errors[] = "Lỗi khi thêm phiếu mượn: " . $e->getMessage();
-        }
-    }
+--             $this->conn->commit();
+--             $thong_bao = "Thêm phiếu mượn thành công!";
+--         } catch (Exception $e) {
+--             $this->conn->rollBack();
+--             $errors[] = "Lỗi khi thêm phiếu mượn: " . $e->getMessage();
+--         }
+--     }
 
-    $data = ['errors' => $errors ?? [], 'thong_bao' => $thong_bao ?? ''];
-    extract($data);
-    require_once __DIR__ . '/../views/layouts/main.php';
-}
+--     $data = ['errors' => $errors ?? [], 'thong_bao' => $thong_bao ?? ''];
+--     extract($data);
+--     require_once __DIR__ . '/../views/layouts/main.php';
+-- }

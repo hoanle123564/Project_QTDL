@@ -68,7 +68,7 @@
                         <a class="nav-link" href="?action=quanLyPhieuMuon">Quản lý phiếu mượn</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?action=traSach">Trả sách</a>
+                        <a class="nav-link" href="?action=quanLyPhieuTra">Danh sách phiếu trả</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=thongKe">Thống kê</a>
@@ -105,14 +105,16 @@
                 require_once __DIR__ . '/../sach/thong_ke.php';
             } elseif ($action === 'quanLyPhieuMuon') {
                 require_once __DIR__ . '/../phieu_muon/quan_ly_phieu_muon.php';
-            } elseif ($action === 'traSach') {
-                require_once __DIR__ . '/../phieu_muon/tra_sach.php';
-            } elseif ($action === 'themSach') {
+            // } elseif ($action === 'traSach') {
+            //     require_once __DIR__ . '/../phieu_muon/tra_sach.php';
+            // } elseif ($action === 'themSach') {
                 require_once __DIR__ . '/../sach/them_sach.php';
             } elseif ($action === 'SuaSach') {
                 require_once __DIR__ . '/../sach/sua sach.php';
             } elseif ($action === 'SuaDocGia') {
                 require_once __DIR__ . '/../doc_gia/sua_doc_gia.php';
+            } elseif ($action === 'quanLyPhieuTra') {
+                require_once __DIR__ . '/../phieu_muon/tra_sach.php';
             }
         }
         ?>

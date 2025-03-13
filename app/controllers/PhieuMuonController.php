@@ -86,69 +86,69 @@ class PhieuMuonController
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function traSach()
-    {
-        if (!isset($_SESSION['user'])) {
-            header("Location: /public/?action=dangNhap");
-            exit;
-        }
+    // public function traSach()
+    // {
+    //     if (!isset($_SESSION['user'])) {
+    //         header("Location: /public/?action=dangNhap");
+    //         exit;
+    //     }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $maChiTietPM = $_POST['ma_chi_tiet_pm'] ?? '';
-            $ngayTraSach = $_POST['ngay_tra_sach'] ?? '';
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         $maChiTietPM = $_POST['ma_chi_tiet_pm'] ?? '';
+    //         $ngayTraSach = $_POST['ngay_tra_sach'] ?? '';
 
-            $this->conn->beginTransaction();
-            try {
-                // Thêm vào PhieuTra (Trigger sẽ tính tiền phạt)
-                $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach) VALUES (:maChiTietPM, :ngayTraSach)";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->execute([':maChiTietPM' => $maChiTietPM, ':ngayTraSach' => $ngayTraSach]);
+    //         $this->conn->beginTransaction();
+    //         try {
+    //             // Thêm vào PhieuTra (Trigger sẽ tính tiền phạt)
+    //             $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach) VALUES (:maChiTietPM, :ngayTraSach)";
+    //             $stmt = $this->conn->prepare($sql);
+    //             $stmt->execute([':maChiTietPM' => $maChiTietPM, ':ngayTraSach' => $ngayTraSach]);
 
-                // Cập nhật trạng thái PhieuMuon nếu tất cả sách trong phiếu đã trả
-                $sql = "SELECT COUNT(*) as chuaTra 
-                        FROM ChiTietPhieuMuon ctpm 
-                        LEFT JOIN PhieuTra pt ON ctpm.MaChiTietPM = pt.MaChiTietPM 
-                        WHERE ctpm.MaPhieuMuon = (
-                            SELECT MaPhieuMuon FROM ChiTietPhieuMuon WHERE MaChiTietPM = :maChiTietPM
-                        ) AND pt.MaChiTietPM IS NULL";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->execute([':maChiTietPM' => $maChiTietPM]);
-                $chuaTra = $stmt->fetch(PDO::FETCH_ASSOC)['chuaTra'];
+    //             // Cập nhật trạng thái PhieuMuon nếu tất cả sách trong phiếu đã trả
+    //             $sql = "SELECT COUNT(*) as chuaTra 
+    //                     FROM ChiTietPhieuMuon ctpm 
+    //                     LEFT JOIN PhieuTra pt ON ctpm.MaChiTietPM = pt.MaChiTietPM 
+    //                     WHERE ctpm.MaPhieuMuon = (
+    //                         SELECT MaPhieuMuon FROM ChiTietPhieuMuon WHERE MaChiTietPM = :maChiTietPM
+    //                     ) AND pt.MaChiTietPM IS NULL";
+    //             $stmt = $this->conn->prepare($sql);
+    //             $stmt->execute([':maChiTietPM' => $maChiTietPM]);
+    //             $chuaTra = $stmt->fetch(PDO::FETCH_ASSOC)['chuaTra'];
 
-                if ($chuaTra == 0) { // Nếu không còn sách nào chưa trả
-                    $sql = "UPDATE PhieuMuon 
-                            SET TrangThai = 'Đã trả' 
-                            WHERE MaPhieuMuon = (
-                                SELECT MaPhieuMuon FROM ChiTietPhieuMuon WHERE MaChiTietPM = :maChiTietPM
-                            )";
-                    $stmt = $this->conn->prepare($sql);
-                    $stmt->execute([':maChiTietPM' => $maChiTietPM]);
-                }
+    //             if ($chuaTra == 0) { // Nếu không còn sách nào chưa trả
+    //                 $sql = "UPDATE PhieuMuon 
+    //                         SET TrangThai = 'Đã trả' 
+    //                         WHERE MaPhieuMuon = (
+    //                             SELECT MaPhieuMuon FROM ChiTietPhieuMuon WHERE MaChiTietPM = :maChiTietPM
+    //                         )";
+    //                 $stmt = $this->conn->prepare($sql);
+    //                 $stmt->execute([':maChiTietPM' => $maChiTietPM]);
+    //             }
 
-                // Cập nhật số lượng sách
-                $sql = "UPDATE Sach s 
-                        JOIN ChiTietPhieuMuon ctpm ON s.MaSach = ctpm.MaSach 
-                        SET s.SoLuong = s.SoLuong + ctpm.SoLuongMuon 
-                        WHERE ctpm.MaChiTietPM = :maChiTietPM";
-                $stmt = $this->conn->prepare($sql);
-                $stmt->execute([':maChiTietPM' => $maChiTietPM]);
+    //             // Cập nhật số lượng sách
+    //             $sql = "UPDATE Sach s 
+    //                     JOIN ChiTietPhieuMuon ctpm ON s.MaSach = ctpm.MaSach 
+    //                     SET s.SoLuong = s.SoLuong + ctpm.SoLuongMuon 
+    //                     WHERE ctpm.MaChiTietPM = :maChiTietPM";
+    //             $stmt = $this->conn->prepare($sql);
+    //             $stmt->execute([':maChiTietPM' => $maChiTietPM]);
 
-                $this->conn->commit();
-                $thong_bao = "Trả sách thành công!";
-            } catch (Exception $e) {
-                $this->conn->rollBack();
-                $errors[] = "Lỗi khi trả sách: " . $e->getMessage();
-            }
-        }
+    //             $this->conn->commit();
+    //             $thong_bao = "Trả sách thành công!";
+    //         } catch (Exception $e) {
+    //             $this->conn->rollBack();
+    //             $errors[] = "Lỗi khi trả sách: " . $e->getMessage();
+    //         }
+    //     }
 
-        $data = [
-            'action' => 'traSach',
-            'errors' => $errors ?? [],
-            'thong_bao' => $thong_bao ?? ''
-        ];
-        extract($data);
-        require_once __DIR__ . '/../views/layouts/main.php';
-    }
+    //     $data = [
+    //         'action' => 'traSach',
+    //         'errors' => $errors ?? [],
+    //         'thong_bao' => $thong_bao ?? ''
+    //     ];
+    //     extract($data);
+    //     require_once __DIR__ . '/../views/layouts/main.php';
+    // }
 
     public function themPhieuMuon() {
         if (!isset($_SESSION['user'])) {
@@ -173,7 +173,7 @@ class PhieuMuonController
                 $this->conn->beginTransaction();
                 try {
                     $sql = "INSERT INTO PhieuMuon (MaDocGia, NgayMuon, NgayTra, TrangThai) 
-                            VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL -1 DAY), 'Đang mượn')";
+                            VALUES (:maDocGia, CURDATE(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), 'Đang mượn')";
                     $stmt = $this->conn->prepare($sql);
                     $stmt->execute([':maDocGia' => $maDocGia]);
                     $maPhieuMuon = $this->conn->lastInsertId();

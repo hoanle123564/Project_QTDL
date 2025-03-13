@@ -9,6 +9,7 @@ use App\Controllers\AuthController;
 use App\Controllers\DocGiaController;
 use App\Controllers\SachController;
 use App\Controllers\PhieuMuonController;
+use App\Controllers\PhieuTraController;
 
 $config = require_once __DIR__ . '/../config/database.php';
 try {
@@ -74,10 +75,10 @@ switch ($action) {
         $controller = new PhieuMuonController($conn);
         $controller->quanLyPhieuMuon();
         break;
-    case 'traSach':
-        $controller = new PhieuMuonController($conn);
-        $controller->traSach();
-        break;
+    // case 'traSach':
+    //     $controller = new PhieuMuonController($conn);
+    //     $controller->traSach();
+    //     break;
     case 'xuatExcelSach':
         $controller = new SachController($conn);
         $controller->xuatExcelSach($controller->sach->danhSachSach());
@@ -96,7 +97,15 @@ switch ($action) {
         $controller = new SachController($conn);
         $controller->SuaSach();
         break;
-   
+    case 'quanLyPhieuTra':
+        $controller = new PhieuTraController($conn);
+        $controller->quanLyPhieuTra();
+        break;
+    case 'xuatExcelPhieuTra':
+        $controller = new PhieuTraController($conn);
+        $controller->xuatExcelPhieuTra($controller->phieuTra->danhSachPhieuTra());
+        die();
+        break;
     default:
         $data = ['action' => 'trangChu'];
         extract($data);
