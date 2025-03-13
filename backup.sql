@@ -74,10 +74,28 @@ CREATE TABLE NguoiDung (
 
 -- Thêm tài khoản mẫu (mật khẩu: 123456, mã hóa bằng password_hash)
 INSERT INTO NguoiDung (TenDangNhap, MatKhau, HoTen, VaiTro) 
-VALUES ('admin', '$2y$10$Wj8e8z5z5z5z5z5z5z5z5uX8e8z5z5z5z5z5z5z5z5z5z5z5z5z5z', 'Quản trị viên', 'admin');
+VALUES ('admin', '$2y$10$3qKNePOGfai8mlVdddyHPOOUpry7ZUF4CDOmJRYpKnuvMWwI8q55G', 'Quản trị viên', 'admin');
 
 -- Thêm dữ liệu mẫu
-INSERT INTO TacGia (TenTacGia) VALUES ('Nguyễn Nhật Ánh'), ('Nam Cao');
+INSERT INTO TacGia (TenTacGia) VALUES
+('Nguyễn Nhật Ánh'),
+('Nam Cao'),
+('Tô Hoài'),
+('Mario Puzo'),
+('J.K. Rowling'),
+('Arthur Conan Doyle'),
+('Dale Carnegie'),
+('Vũ Trọng Phụng'),
+('Edmondo De Amicis'),
+('Paulo Coelho'),
+('Hector Malot'),
+('Robert C. Martin'),
+('Andrew Hunt'),
+('Gustave Le Bon'),
+('Stephen Hawking'),
+('Karl Marx'),
+('John C. Maxwell');
+
 INSERT INTO TheLoai (TenTheLoai) VALUES 
 ('Văn học'),
 ('Truyện ngắn'),
@@ -100,9 +118,16 @@ INSERT INTO TheLoai (TenTheLoai) VALUES
 ('Nghệ thuật'),
 ('Du lịch');
 
-INSERT INTO Sach (MaTacGia, MaTheLoai, TenSach, NamXuatBan, NhaXuatBan, SoLuong) 
-VALUES (1, 1, 'Cho tôi xin một vé đi tuổi thơ', 2008, 'NXB Trẻ', 10),
-       (2, 2, 'Lão Hạc', 1943, 'NXB Văn học', 5);
+INSERT INTO Sach (MaTacGia, MaTheLoai, TenSach, NamXuatBan, NhaXuatBan, SoLuong)  
+VALUES 
+    (9, 15, 'Những tấm lòng cao cả', 1886, 'NXB Kim Đồng', 11),
+    (10, 5, 'Nhà giả kim', 1988, 'NXB Văn học', 14),
+    (11, 3, 'Không gia đình', 1878, 'NXB Trẻ', 8),
+    (12, 4, 'Tôi thấy hoa vàng trên cỏ xanh', 2010, 'NXB Trẻ', 12),
+    (13, 10, 'Clean Code', 2008, 'NXB Công nghệ', 18),
+    (14, 10, 'The Pragmatic Programmer', 1999, 'NXB Công nghệ', 9);
+
+
 INSERT INTO DocGia (TenDocGia, NgaySinh, SoDienThoai) 
 VALUES ('Nguyễn Văn A', '2000-05-15', '0909123456');
 
