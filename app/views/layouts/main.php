@@ -105,9 +105,11 @@
                 require_once __DIR__ . '/../sach/thong_ke.php';
             } elseif ($action === 'quanLyPhieuMuon') {
                 require_once __DIR__ . '/../phieu_muon/quan_ly_phieu_muon.php';
-            // } elseif ($action === 'traSach') {
+            }
+             //elseif ($action === 'traSach') {
             //     require_once __DIR__ . '/../phieu_muon/tra_sach.php';
-            // } elseif ($action === 'themSach') {
+            // }
+             elseif ($action === 'themSach') {
                 require_once __DIR__ . '/../sach/them_sach.php';
             } elseif ($action === 'SuaSach') {
                 require_once __DIR__ . '/../sach/sua sach.php';
