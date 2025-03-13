@@ -35,8 +35,8 @@
     <div class="col-md-4">
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Thêm phiếu mượn</h5>
-                <a href="?action=themPhieuMuon" class="btn btn-primary">Đi đến</a>
+                <h5 class="card-title">Quản lý độc giả</h5>
+                <a href="?action=quanLyDocGia" class="btn btn-primary">Đi đến</a>
             </div>
         </div>
     </div>
