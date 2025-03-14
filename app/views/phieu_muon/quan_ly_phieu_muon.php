@@ -45,13 +45,15 @@
             <td><?php echo $pm['TrangThai']; ?></td>
             <td><?php echo $pm['SachMuon']; ?></td>
             <td>
-                <form method="POST" style="display:inline;">
-                    <input type="hidden" name="ma_phieu_muon" value="<?php echo $pm['MaPhieuMuon']; ?>">
-                    <button type="submit" name="capNhatTrangThai" class="btn btn-warning btn-sm"
-                        onclick="return confirm('Chuyển trạng thái phiếu mượn này sang Đã trả?')">
-                        Cập nhật trạng thái
-                    </button>
-                </form>
+                <?php if ($pm['TrangThai'] != 'Đã trả'): ?>
+                    <form method="POST" style="display:inline;">
+                        <input type="hidden" name="ma_phieu_muon" value="<?php echo $pm['MaPhieuMuon']; ?>">
+                        <button type="submit" name="capNhatTrangThai" class="btn btn-warning btn-sm"
+                            onclick="return confirm('Chuyển trạng thái phiếu mượn này sang Đã trả?')">
+                            Cập nhật trạng thái
+                        </button>
+                    </form>
+                <?php endif; ?>
             </td>
 
         </tr>
