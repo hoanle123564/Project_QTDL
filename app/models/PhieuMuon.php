@@ -81,23 +81,17 @@ class PhieuMuon {
         $ngayTra = new DateTime($phieuMuon['NgayTra']);
         $today = new DateTime(); // Ngày hiện tại
     
-        // Tính số ngày trả muộn (nếu có)
-        $soNgayTre = max(0, $today->diff($ngayTra)->days);
-    
-        // Giả sử phí nộp muộn là 5000 VND/ngày
-        $tienPhat = "TinhTienPhat()";
+
     
             // Chèn phiếu trả vào bảng `PhieuTra`
-            $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach, TienPhat) 
-                    VALUES (:maPhieuMuon, :ngayTraSach, :tienPhat)";
+            $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach) 
+                    VALUES (:maPhieuMuon, :ngayTraSach)";
             $stmt = $this->conn->prepare($sql);
              $stmt->execute([
                 ':maPhieuMuon' => $maPhieuMuon,
                 ':ngayTraSach' => $today->format('Y-m-d'),
-                ':tienPhat' => $tienPhat
             ]);
     
     }
-    
     
 }

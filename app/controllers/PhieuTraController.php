@@ -74,13 +74,4 @@ class PhieuTraController
         $writer->save('php://output');
     }
     
-
-    // public function danhSachPhieuTra()
-    // {
-    //     $sql = "CALL DanhSachPhieuTraChuaTra()";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
-    
 }
