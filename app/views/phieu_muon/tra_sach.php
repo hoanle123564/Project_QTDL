@@ -25,7 +25,7 @@
 <table class="table table-striped mt-4">
     <thead>
         <tr>
-            <th>Mã Phiếu Mượn</th>
+            <th>Mã Phiếu Trả</th>
             <th>Tên Độc Giả</th>
             <th>Ngày Mượn</th>
             <th>Ngày Trả</th>
