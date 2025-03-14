@@ -12,7 +12,7 @@ class PhieuTra {
     public function danhSachPhieuTra() {
         $sql = "SELECT pt.MaPhieuTra,
                     dg.TenDocGia, 
-                    pm.NgayTra,
+                    pt.NgayTraSach,
                      pm.NgayMuon, 
                     s.TenSach, 
                     ctp.SoLuongMuon AS SoLuongSachMuon, 

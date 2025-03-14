@@ -41,7 +41,7 @@
             <td><?php echo $pm['MaPhieuTra'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['TenDocGia'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['NgayMuon'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['NgayTra'] ?? 'N/A'; ?></td>
+            <td><?php echo $pm['NgayTraSach'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['TenSach'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['SoLuongSachMuon'] ?? '0'; ?></td>
             <td><?php echo number_format($pm['SoTienMuon'], 0, ',', '.') . ' VND'; ?></td>

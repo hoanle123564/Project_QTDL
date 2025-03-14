@@ -85,11 +85,10 @@ class PhieuMuon {
     
             // Chèn phiếu trả vào bảng `PhieuTra`
             $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach) 
-                    VALUES (:maPhieuMuon, :ngayTraSach)";
+                    VALUES (:maPhieuMuon, CURDATE())";
             $stmt = $this->conn->prepare($sql);
              $stmt->execute([
                 ':maPhieuMuon' => $maPhieuMuon,
-                ':ngayTraSach' => $today->format('Y-m-d'),
             ]);
     
     }
