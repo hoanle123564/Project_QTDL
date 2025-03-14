@@ -27,13 +27,13 @@ class PhieuMuonController
 
         $errors = [];
         $thong_bao = '';
-        $phieuMuonList = $this->phieuMuon->danhSachPhieuMuon();
+        $phieuMuonList = $this->danhSachPhieuMuon();
 
         if (isset($_POST['capNhatTrangThai'])) {
             $maPhieuMuon = $_POST['ma_phieu_muon'] ?? '';
             if ($this->phieuMuon->capNhatTrangThaiPhieuMuon($maPhieuMuon)) {
                 $thong_bao = "Cập nhật trạng thái phiếu mượn thành 'Đã trả' thành công!";
-                $phieuMuonList = $this->phieuMuon->danhSachPhieuMuon();
+                $phieuMuonList = $this->danhSachPhieuMuon();
                 $this->phieuMuon->taoPhieuTra($maPhieuMuon);
             } else {
                 $errors[] = "Lỗi khi cập nhật trạng thái phiếu mượn!";
