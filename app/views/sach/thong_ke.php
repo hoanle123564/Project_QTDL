@@ -30,4 +30,55 @@
     </tbody>
 </table>
 
+<h3 class="mt-5">📢 Sách sắp đến hạn trả</h3>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Tên sách</th>
+            <th>Ngày trả</th>
+            <th>Độc giả</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($sachSapDenHan)): ?>
+            <?php foreach ($sachSapDenHan as $sach): ?>
+                <tr>
+                    <td><?php echo $sach['TenSach']; ?></td>
+                    <td><?php echo $sach['NgayTra']; ?></td>
+                    <td><?php echo $sach['TenDocGia']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="3" class="text-center">Không có sách nào sắp đến hạn trả</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
+<h3 class="mt-5">📚 Sách được mượn nhiều nhất</h3>
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Tên sách</th>
+            <th>Số lần mượn</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($sachGoiY)): ?>
+            <?php foreach ($sachGoiY as $sach): ?>
+                <tr>
+                    <td><?php echo $sach['TenSach']; ?></td>
+                    <td><?php echo $sach['SoLanMuon']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="2" class="text-center">📖 Chưa có dữ liệu</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+
 <a href="?action=sachQuaHan" class="btn btn-danger mt-3">Xem sách quá hạn</a>
+<br><br>
