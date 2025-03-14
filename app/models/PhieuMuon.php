@@ -47,6 +47,21 @@ class PhieuMuon {
     }
     
     public function capNhatTrangThaiPhieuMuon($maPhieuMuon) {
+        $sql = "SELECT SoLuongMuon FROM ChiTietPhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+        $SL = $stmt->fetch(PDO::FETCH_ASSOC)['SoLuongMuon'];
+
+        $sql = "UPDATE Sach s
+        JOIN ChiTietPhieuMuon ctpm ON s.MaSach = ctpm.MaSach
+        SET s.SoLuong = s.SoLuong + :SL 
+        WHERE ctpm.MaPhieuMuon = :maPhieuMuon";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':SL' => $SL,
+            ':maPhieuMuon' => $maPhieuMuon
+        ]);
+
         $sql = "UPDATE PhieuMuon SET TrangThai = 'Đã trả' WHERE MaPhieuMuon = :maPhieuMuon";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
