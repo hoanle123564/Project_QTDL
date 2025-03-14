@@ -102,33 +102,83 @@ class SachController {
     }
 
 
+    // public function thongKe() {
+    //     if (!isset($_SESSION['user'])) {
+    //         header("Location: /public/?action=dangNhap");
+    //         exit;
+    //     }
+    
+    //     $sql = "SELECT COUNT(*) as TongSach FROM Sach";
+    //     $stmt = $this->conn->query($sql);
+    //     $tongSach = $stmt->fetch(PDO::FETCH_ASSOC)['TongSach'];
+    
+    //     $sql = "SELECT COUNT(*) as TongDocGia FROM DocGia";
+    //     $stmt = $this->conn->query($sql);
+    //     $tongDocGia = $stmt->fetch(PDO::FETCH_ASSOC)['TongDocGia'];
+    
+    //     $sql = "SELECT COUNT(*) as TongPhieuMuon FROM PhieuMuon WHERE TrangThai = 'Đang mượn'";
+    //     $stmt = $this->conn->query($sql);
+    //     $tongPhieuMuon = $stmt->fetch(PDO::FETCH_ASSOC)['TongPhieuMuon'];
+    
+    //     $data = [
+    //         'action' => 'thongKe',
+    //         'tongSach' => $tongSach,
+    //         'tongDocGia' => $tongDocGia,
+    //         'tongPhieuMuon' => $tongPhieuMuon
+    //     ];
+    //     extract($data);
+    //     require_once __DIR__ . '/../views/layouts/main.php';
+    // }
+
     public function thongKe() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
             exit;
         }
     
+        // Tổng số sách
         $sql = "SELECT COUNT(*) as TongSach FROM Sach";
         $stmt = $this->conn->query($sql);
         $tongSach = $stmt->fetch(PDO::FETCH_ASSOC)['TongSach'];
     
+        // Tổng số độc giả
         $sql = "SELECT COUNT(*) as TongDocGia FROM DocGia";
         $stmt = $this->conn->query($sql);
         $tongDocGia = $stmt->fetch(PDO::FETCH_ASSOC)['TongDocGia'];
     
+        // Tổng số phiếu mượn đang hoạt động
         $sql = "SELECT COUNT(*) as TongPhieuMuon FROM PhieuMuon WHERE TrangThai = 'Đang mượn'";
         $stmt = $this->conn->query($sql);
         $tongPhieuMuon = $stmt->fetch(PDO::FETCH_ASSOC)['TongPhieuMuon'];
+    
+        // Số lượng sách đã mượn trong tháng hiện tại (dựa vào Ngày Mượn trong bảng PhieuMuon)
+        $sql = "SELECT SUM(SoLuongMuon) as SachMuonThang 
+                FROM ChiTietPhieuMuon ctpm
+                JOIN PhieuMuon pm ON ctpm.MaPhieuMuon = pm.MaPhieuMuon
+                WHERE MONTH(pm.NgayMuon) = MONTH(CURRENT_DATE()) 
+                AND YEAR(pm.NgayMuon) = YEAR(CURRENT_DATE())";
+        $stmt = $this->conn->query($sql);
+        $sachMuonThang = $stmt->fetch(PDO::FETCH_ASSOC)['SachMuonThang'];
+    
+        // Số lượng độc giả đã mượn sách trong năm hiện tại
+        $sql = "SELECT COUNT(DISTINCT pm.MaDocGia) as DocGiaMuonNam 
+                FROM PhieuMuon pm
+                WHERE YEAR(pm.NgayMuon) = YEAR(CURRENT_DATE())";
+        $stmt = $this->conn->query($sql);
+        $docGiaMuonNam = $stmt->fetch(PDO::FETCH_ASSOC)['DocGiaMuonNam'];
     
         $data = [
             'action' => 'thongKe',
             'tongSach' => $tongSach,
             'tongDocGia' => $tongDocGia,
-            'tongPhieuMuon' => $tongPhieuMuon
+            'tongPhieuMuon' => $tongPhieuMuon,
+            'sachMuonThang' => $sachMuonThang,
+            'docGiaMuonNam' => $docGiaMuonNam
         ];
         extract($data);
         require_once __DIR__ . '/../views/layouts/main.php';
-    }
+    }    
+    
     public function themSach() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
