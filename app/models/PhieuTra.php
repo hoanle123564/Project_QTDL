@@ -10,9 +10,10 @@ class PhieuTra {
     }
 
     public function danhSachPhieuTra() {
-        $sql = "SELECT 
+        $sql = "SELECT pt.MaPhieuTra,
                     dg.TenDocGia, 
-                    pm.NgayTra, 
+                    pm.NgayTra,
+                     pm.NgayMuon, 
                     s.TenSach, 
                     ctp.SoLuongMuon AS SoLuongSachMuon, 
                     pt.TienPhat AS SoTienMuon

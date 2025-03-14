@@ -38,7 +38,7 @@
         <?php if (!empty($phieuTraList) && is_array($phieuTraList)): ?>
         <?php foreach ($phieuTraList as $pm): ?>
         <tr>
-            <td><?php echo $pm['MaPhieuMuon'] ?? 'N/A'; ?></td>
+            <td><?php echo $pm['MaPhieuTra'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['TenDocGia'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['NgayMuon'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['NgayTra'] ?? 'N/A'; ?></td>

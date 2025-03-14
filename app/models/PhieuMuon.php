@@ -1,5 +1,7 @@
 <?php
 namespace App\Models;
+
+use DateTime;
 use PDO;
 
 class PhieuMuon {
@@ -66,5 +68,36 @@ class PhieuMuon {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
     }
+
+    public function taoPhieuTra($maPhieuMuon) {
+        // Lấy thông tin phiếu mượn
+        $sql = "SELECT NgayMuon, NgayTra FROM PhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+        $phieuMuon = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
+        $ngayMuon = new DateTime($phieuMuon['NgayMuon']);
+        $ngayTra = new DateTime($phieuMuon['NgayTra']);
+        $today = new DateTime(); // Ngày hiện tại
+    
+        // Tính số ngày trả muộn (nếu có)
+        $soNgayTre = max(0, $today->diff($ngayTra)->days);
+    
+        // Giả sử phí nộp muộn là 5000 VND/ngày
+        $tienPhat = "TinhTienPhat()";
+    
+            // Chèn phiếu trả vào bảng `PhieuTra`
+            $sql = "INSERT INTO PhieuTra (MaChiTietPM, NgayTraSach, TienPhat) 
+                    VALUES (:maPhieuMuon, :ngayTraSach, :tienPhat)";
+            $stmt = $this->conn->prepare($sql);
+             $stmt->execute([
+                ':maPhieuMuon' => $maPhieuMuon,
+                ':ngayTraSach' => $today->format('Y-m-d'),
+                ':tienPhat' => $tienPhat
+            ]);
+    
+    }
+    
     
 }
