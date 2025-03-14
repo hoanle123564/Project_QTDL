@@ -129,7 +129,11 @@ VALUES
 
 
 INSERT INTO DocGia (TenDocGia, NgaySinh, SoDienThoai) 
-VALUES ('Nguyễn Văn A', '2000-05-15', '0909123456');
+VALUES 
+('Nguyễn Văn A', '2000-05-15', '0909123456'),
+('Lê Ngọc Hoàn', '2003-06-13', '0868123456'),
+('Trần Công Huân', '2004-07-13', '0868123564'),
+('Nguyễn Minh Đông', '2004-05-16', '0986123456');
 
 -- Stored Procedure: Danh sách phiếu mượn chưa trả
 DELIMITER //
