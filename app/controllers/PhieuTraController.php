@@ -58,7 +58,7 @@ class PhieuTraController
             $sheet->setCellValue("A$row", $pm['MaPhieuMuon'] ?? 'N/A');
             $sheet->setCellValue("B$row", $pm['TenDocGia'] ?? 'N/A');
             $sheet->setCellValue("C$row", $pm['NgayMuon'] ?? 'N/A');
-            $sheet->setCellValue("D$row", $pm['NgayTra'] ?? 'N/A');
+            $sheet->setCellValue("D$row", $pm['NgayTraSach'] ?? 'N/A');
             $sheet->setCellValue("E$row", $pm['TenSach'] ?? 'N/A');
             $sheet->setCellValue("F$row", $pm['SoLuongSachMuon'] ?? '0');
             $sheet->setCellValue("G$row", $pm['SoTienMuon'] ? number_format($pm['SoTienMuon'], 0, ',', '.') . ' VND' : '0 VND');

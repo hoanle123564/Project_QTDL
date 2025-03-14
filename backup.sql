@@ -1,5 +1,6 @@
+DROP DATABASE IF EXISTS quan_ly_thu_vien;
 -- Tạo database
-CREATE DATABASE IF NOT EXISTS quan_ly_thu_vien;
+CREATE DATABASE quan_ly_thu_vien;
 USE quan_ly_thu_vien;
 
 -- Bảng Tác giả
