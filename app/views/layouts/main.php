@@ -68,7 +68,7 @@
                         <a class="nav-link" href="?action=quanLyPhieuMuon">Quản lý phiếu mượn</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?action=quanLyPhieuTra">Danh sách phiếu trả</a>
+                        <a class="nav-link" href="?action=quanLyPhieuTra">Quản lý phiếu trả</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?action=thongKe">Thống kê</a>
