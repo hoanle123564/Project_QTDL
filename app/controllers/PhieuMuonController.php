@@ -39,6 +39,13 @@ class PhieuMuonController
                 $errors[] = "Lỗi khi cập nhật trạng thái phiếu mượn!";
             }
         }
+        elseif (isset($_POST['tim_kiem'])) {
+            $tuKhoa = trim($_POST['tu_khoa'] ?? '');
+            $phieuMuonList = $this->phieuMuon->timKiemPhieuMuon($tuKhoa);
+        } elseif (isset($_POST['xuat_excel'])) {
+            $this->xuatExcelPhieuMuon($phieuMuonList);
+            die();
+        }
         
 
         $data = [

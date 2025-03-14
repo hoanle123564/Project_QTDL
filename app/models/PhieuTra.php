@@ -28,4 +28,23 @@ class PhieuTra {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function timKiemPhieuTra($tuKhoa) {
+        $sql = "SELECT pt.MaPhieuTra,
+                    dg.TenDocGia, 
+                    pt.NgayTraSach,
+                     pm.NgayMuon, 
+                    s.TenSach, 
+                    ctp.SoLuongMuon AS SoLuongSachMuon, 
+                    pt.TienPhat AS SoTienMuon
+                FROM PhieuMuon pm
+                JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia
+                JOIN ChiTietPhieuMuon ctp ON pm.MaPhieuMuon = ctp.MaPhieuMuon
+                JOIN Sach s ON ctp.MaSach = s.MaSach
+                JOIN PhieuTra pt ON ctp.MaChiTietPM = pt.MaChiTietPM
+                WHERE pm.TrangThai = 'Đã trả' AND (s.TenSach LIKE :tuKhoa OR dg.TenDocGia LIKE :tuKhoa) ";
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':tuKhoa' => "%$tuKhoa%"]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
