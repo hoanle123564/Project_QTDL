@@ -92,5 +92,17 @@ class PhieuMuon {
             ]);
     
     }
+    public function timKiemPhieuMuon($tuKhoa) {
+        $sql = "SELECT pm.*, dg.TenDocGia, GROUP_CONCAT(s.TenSach) as SachMuon 
+                FROM PhieuMuon pm 
+                JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia 
+                JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon 
+                JOIN Sach s ON ctpm.MaSach = s.MaSach 
+                WHERE s.TenSach LIKE :tuKhoa OR dg.TenDocGia LIKE :tuKhoa
+                GROUP BY pm.MaPhieuMuon";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':tuKhoa' => "%$tuKhoa%"]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
 }

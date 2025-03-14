@@ -28,6 +28,14 @@ class PhieuTraController
         $errors = [];
         $thong_bao = '';
         $phieuTraList = $this->phieuTra->danhSachPhieuTra();
+
+        if (isset($_POST['tim_kiem'])) {
+            $tuKhoa = trim($_POST['tu_khoa'] ?? '');
+            $phieuTraList = $this->phieuTra->timKiemPhieuTra($tuKhoa);
+        } elseif (isset($_POST['xuat_excel'])) {
+            $this->xuatExcelPhieuTra($phieuTraList);
+            die();
+        }
         
         $data = [
             'action' => 'quanLyPhieuTra',
