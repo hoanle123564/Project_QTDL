@@ -117,6 +117,8 @@
                 require_once __DIR__ . '/../doc_gia/sua_doc_gia.php';
             } elseif ($action === 'quanLyPhieuTra') {
                 require_once __DIR__ . '/../phieu_muon/tra_sach.php';
+            } elseif ($action === 'sachQuaHan') {
+                require_once __DIR__ . '/../sach/sach_qua_han.php';
             }
         }
         ?>

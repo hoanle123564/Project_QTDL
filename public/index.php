@@ -104,7 +104,10 @@ switch ($action) {
     case 'xuatExcelPhieuTra':
         $controller = new PhieuTraController($conn);
         $controller->xuatExcelPhieuTra($controller->phieuTra->danhSachPhieuTra());
-        die();
+        break;
+    case 'sachQuaHan':
+        $controller = new SachController($conn);
+        $controller->sachQuaHan();
         break;
     default:
         $data = ['action' => 'trangChu'];

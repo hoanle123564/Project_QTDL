@@ -275,4 +275,27 @@ class SachController {
         require_once __DIR__ . '/../views/layouts/main.php';
     }
     
-}
+    public function sachQuaHan() {
+        if (!isset($_SESSION['user'])) {
+            header("Location: /public/?action=dangNhap");
+            exit;
+        }
+    
+        $sql = "SELECT pm.MaPhieuMuon, dg.TenDocGia, s.TenSach, pm.NgayTra 
+                FROM PhieuMuon pm
+                JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon
+                JOIN Sach s ON ctpm.MaSach = s.MaSach
+                JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia
+                WHERE pm.TrangThai = 'Đang mượn' AND pm.NgayTra < CURDATE()";
+        
+        $stmt = $this->conn->query($sql);
+        $sachQuaHan = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $data = [
+            'action' => 'sachQuaHan',
+            'sachQuaHan' => $sachQuaHan
+        ];
+        extract($data);
+        require_once __DIR__ . '/../views/layouts/main.php';
+    }    
+}   
