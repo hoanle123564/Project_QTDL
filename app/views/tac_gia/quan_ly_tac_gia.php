@@ -39,12 +39,12 @@ use App\Models\TacGia;
             <td><?php echo $tacgia['MaTacGia']; ?></td>
             <td><?php echo $tacgia['TenTacGia']; ?></td>
             <td>
-                <?php $sachArr = ''; 
+            <?php 
                 $temp = new TacGia($this->conn);
-                foreach ($temp->layTacGia($tacgia['MaTacGia'])->laySachCuaTacGia($tacgia['MaTacGia']) as $sach):
-                    $sachArr = $sachArr . $sach['TenSach'] . "\n";
-                endforeach;
-                echo $sachArr ?>
+                $sachList = $temp->layTacGia($tacgia['MaTacGia'])->laySachCuaTacGia($tacgia['MaTacGia']);
+                $sachArr = array_map(fn($sach) => $sach['TenSach'], $sachList);
+                echo implode(", ", $sachArr);
+            ?>
             </td>
         </tr>
         <?php endforeach; ?>
