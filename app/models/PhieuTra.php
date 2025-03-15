@@ -88,6 +88,7 @@ class PhieuTra {
         pt.MaPhieuTra,
         dg.TenDocGia, 
         pm.NgayMuon,
+        pm.NgayTra,
         pt.NgayTraSach, 
         ctp.SoLuongMuon AS SoLuongSachMuon, 
         COALESCE(pt.TienPhat, 0) AS SoTienMuon
