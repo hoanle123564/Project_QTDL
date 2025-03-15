@@ -7,6 +7,7 @@ session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 use App\Controllers\AuthController;
 use App\Controllers\DocGiaController;
+use App\Controllers\TacGiaController;
 use App\Controllers\SachController;
 use App\Controllers\PhieuMuonController;
 use App\Controllers\PhieuTraController;
@@ -50,6 +51,10 @@ switch ($action) {
     case 'quanLyDocGia':
         $controller = new DocGiaController($conn);
         $controller->quanLyDocGia();
+        break;
+    case 'quanLyTacGia':
+        $controller = new TacGiaController($conn);
+        $controller->quanLyTacGia();
         break;
     case 'dangKyDocGia':
         $controller = new DocGiaController($conn);

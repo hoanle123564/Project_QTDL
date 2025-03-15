@@ -62,6 +62,9 @@
                         <a class="nav-link" href="?action=quanLyDocGia">Quản lý độc giả</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="?action=quanLyTacGia">Quản lý tác giả</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="?action=quanLySach">Quản lý sách</a>
                     </li>
                     <li class="nav-item">
@@ -97,6 +100,8 @@
                 require_once __DIR__ . '/../sach/quan_ly_sach.php';
             } elseif ($action === 'quanLyDocGia') {
                 require_once __DIR__ . '/../doc_gia/quan_ly_doc_gia.php';
+            } elseif ($action === 'quanLyTacGia') {
+                require_once __DIR__ . '/../tac_gia/quan_ly_tac_gia.php';
             } elseif ($action === 'dangKyDocGia') {
                 require_once __DIR__ . '/../doc_gia/dang_ky.php';
             } elseif ($action === 'themPhieuMuon') {
