@@ -1,17 +1,17 @@
 <h2 class="text-center">Danh sách phiếu trả</h2>
 
 <?php if (!empty($errors)): ?>
-<div class="alert alert-danger">
-    <ul>
-        <?php foreach ($errors as $error): ?>
-        <li><?php echo $error; ?></li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+    <div class="alert alert-danger">
+        <ul>
+            <?php foreach ($errors as $error): ?>
+                <li><?php echo $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 <?php endif; ?>
 
 <?php if (!empty($thong_bao)): ?>
-<div class="alert alert-success"><?php echo $thong_bao; ?></div>
+    <div class="alert alert-success"><?php echo $thong_bao; ?></div>
 <?php endif; ?>
 
 <!-- Tìm kiếm và thêm sách -->
@@ -28,29 +28,41 @@
             <th>Mã Phiếu Trả</th>
             <th>Tên Độc Giả</th>
             <th>Ngày Mượn</th>
+            <th>Ngày dự kiến trả sách</th>
             <th>Ngày Trả</th>
-            <th>Tên Sách</th>
-            <th>Số Lượng</th>
+            <th>Trạng thái</th>
+            <!-- <th>Tên Sách</th> -->
+            <!-- <th>Số Lượng</th> -->
             <th>Số Tiền Nộp Muộn</th>
         </tr>
     </thead>
     <tbody>
         <?php if (!empty($phieuTraList) && is_array($phieuTraList)): ?>
-        <?php foreach ($phieuTraList as $pm): ?>
-        <tr>
-            <td><?php echo $pm['MaPhieuTra'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['TenDocGia'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['NgayMuon'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['NgayTraSach'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['TenSach'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['SoLuongSachMuon'] ?? '0'; ?></td>
-            <td><?php echo number_format($pm['SoTienMuon'], 0, ',', '.') . ' VND'; ?></td>
-        </tr>
-        <?php endforeach; ?>
+            <?php foreach ($phieuTraList as $pm): ?>
+                <tr>
+                    <td><?php echo $pm['MaPhieuTra'] ?? 'N/A'; ?></td>
+                    <td><?php echo $pm['TenDocGia'] ?? 'N/A'; ?></td>
+                    <td><?php echo $pm['NgayMuon'] ?? 'N/A'; ?></td>
+                    <td><?php echo $pm['NgayTra'] ?? 'N/A'; ?></td>
+                    <td><?php echo $pm['NgayTraSach'] ?? 'N/A'; ?></td>
+                    <td>
+                        <?php
+                        if (!empty($pm['NgayTra']) && !empty($pm['NgayTraSach'])) {
+                            echo ($pm['NgayTraSach'] > $pm['NgayTra']) ? "<b><span class='text-danger'>Trễ hạn</span></b>" : "<b><span class='text-success'>Đúng hạn</span></b>";
+                        } else {
+                            echo "<b><span class='text-success'>Đúng hạn</span></b>";
+                        }
+                        ?>
+                    </td>
+                    <!-- <td><?php echo $pm['TenSach'] ?? 'N/A'; ?></td> -->
+                    <!-- <td><?php echo $pm['SoLuongSachMuon'] ?? '0'; ?></td> -->
+                    <td><?php echo number_format($pm['SoTienMuon'], 0, ',', '.') . ' VND'; ?></td>
+                </tr>
+            <?php endforeach; ?>
         <?php else: ?>
-        <tr>
-            <td colspan="7" class="text-center">Không có dữ liệu phiếu trả.</td>
-        </tr>
+            <tr>
+                <td colspan="7" class="text-center">Không có dữ liệu phiếu trả.</td>
+            </tr>
         <?php endif; ?>
     </tbody>
 </table>

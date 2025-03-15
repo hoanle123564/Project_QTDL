@@ -3,6 +3,7 @@ namespace App\Models;
 
 use DateTime;
 use PDO;
+use Exception;
 
 class PhieuMuon {
     private $conn;
@@ -48,27 +49,62 @@ class PhieuMuon {
         return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
     }
     
+    // public function capNhatTrangThaiPhieuMuon($maPhieuMuon) {
+    //     $sql = "SELECT SoLuongMuon FROM ChiTietPhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+    //     $SL = $stmt->fetch(PDO::FETCH_ASSOC)['SoLuongMuon'];
+
+    //     // Chỉnh UPDATE
+    //     $sql = "UPDATE Sach s
+    //     JOIN ChiTietPhieuMuon ctpm ON s.MaSach = ctpm.MaSach
+    //     SET s.SoLuong = s.SoLuong + :SL 
+    //     WHERE ctpm.MaPhieuMuon = :maPhieuMuon";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute([
+    //         ':SL' => $SL,
+    //         ':maPhieuMuon' => $maPhieuMuon
+    //     ]);
+
+    //     $sql = "UPDATE PhieuMuon SET TrangThai = 'Đã trả' WHERE MaPhieuMuon = :maPhieuMuon";
+    //     $stmt = $this->conn->prepare($sql);
+    //     return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+    // }
+
     public function capNhatTrangThaiPhieuMuon($maPhieuMuon) {
-        $sql = "SELECT SoLuongMuon FROM ChiTietPhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
-        $SL = $stmt->fetch(PDO::FETCH_ASSOC)['SoLuongMuon'];
-
-        $sql = "UPDATE Sach s
-        JOIN ChiTietPhieuMuon ctpm ON s.MaSach = ctpm.MaSach
-        SET s.SoLuong = s.SoLuong + :SL 
-        WHERE ctpm.MaPhieuMuon = :maPhieuMuon";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([
-            ':SL' => $SL,
-            ':maPhieuMuon' => $maPhieuMuon
-        ]);
-
-        $sql = "UPDATE PhieuMuon SET TrangThai = 'Đã trả' WHERE MaPhieuMuon = :maPhieuMuon";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+        try {
+            $this->conn->beginTransaction(); // Bắt đầu transaction
+    
+            // Lấy danh sách sách và số lượng đã mượn
+            $sql = "SELECT MaSach, SoLuongMuon FROM ChiTietPhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+            $sachMuon = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Cập nhật số lượng sách trong bảng Sach
+            foreach ($sachMuon as $sach) {
+                $sql = "UPDATE Sach SET SoLuong = SoLuong + :soLuongMuon WHERE MaSach = :maSach";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->execute([
+                    ':soLuongMuon' => $sach['SoLuongMuon'],
+                    ':maSach' => $sach['MaSach']
+                ]);
+            }
+    
+            // Cập nhật trạng thái phiếu mượn thành "Đã trả"
+            $sql = "UPDATE PhieuMuon SET TrangThai = 'Đã trả' WHERE MaPhieuMuon = :maPhieuMuon";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':maPhieuMuon' => $maPhieuMuon]);
+    
+            $this->conn->commit(); // Xác nhận transaction
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollBack(); // Nếu có lỗi, quay lại trạng thái trước
+            error_log("Lỗi cập nhật phiếu mượn: " . $e->getMessage());
+            return false;
+        }
     }
-
+    
     public function taoPhieuTra($maPhieuMuon) {
         // Lấy thông tin phiếu mượn
         $sql = "SELECT NgayMuon, NgayTra FROM PhieuMuon WHERE MaPhieuMuon = :maPhieuMuon";
