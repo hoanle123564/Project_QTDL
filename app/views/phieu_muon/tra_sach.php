@@ -29,8 +29,8 @@
             <th>Tên Độc Giả</th>
             <th>Ngày Mượn</th>
             <th>Ngày Trả</th>
-            <th>Tên Sách</th>
-            <th>Số Lượng</th>
+            <!-- <th>Tên Sách</th> -->
+            <!-- <th>Số Lượng</th> -->
             <th>Số Tiền Nộp Muộn</th>
         </tr>
     </thead>
@@ -42,8 +42,8 @@
             <td><?php echo $pm['TenDocGia'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['NgayMuon'] ?? 'N/A'; ?></td>
             <td><?php echo $pm['NgayTraSach'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['TenSach'] ?? 'N/A'; ?></td>
-            <td><?php echo $pm['SoLuongSachMuon'] ?? '0'; ?></td>
+            <!-- <td><?php echo $pm['TenSach'] ?? 'N/A'; ?></td> -->
+            <!-- <td><?php echo $pm['SoLuongSachMuon'] ?? '0'; ?></td> -->
             <td><?php echo number_format($pm['SoTienMuon'], 0, ',', '.') . ' VND'; ?></td>
         </tr>
         <?php endforeach; ?>

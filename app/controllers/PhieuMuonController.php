@@ -19,6 +19,7 @@ class PhieuMuonController
         $this->phieuMuon = new PhieuMuon($conn);
     }
 
+    // Cập nhật trạng thái phiếu mượn
     public function quanLyPhieuMuon() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
@@ -30,6 +31,7 @@ class PhieuMuonController
         $phieuMuonList = $this->danhSachPhieuMuon();
 
         if (isset($_POST['capNhatTrangThai'])) {
+            // echo "HIHIHIHIHIHIHIHI";
             $maPhieuMuon = $_POST['ma_phieu_muon'] ?? '';
             if ($this->phieuMuon->capNhatTrangThaiPhieuMuon($maPhieuMuon)) {
                 $thong_bao = "Cập nhật trạng thái phiếu mượn thành 'Đã trả' thành công!";
@@ -58,6 +60,7 @@ class PhieuMuonController
         require_once __DIR__ . '/../views/layouts/main.php';
     }
 
+    // Xuất Excel
     public function xuatExcelPhieuMuon($phieuMuonList) {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -217,6 +220,7 @@ class PhieuMuonController
     //     require_once __DIR__ . '/../views/layouts/main.php';
     // }
     
+    // Thêm phiếu mượn
     public function themPhieuMuon() {
         if (!isset($_SESSION['user'])) {
             header("Location: /public/?action=dangNhap");
