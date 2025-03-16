@@ -17,7 +17,7 @@
 <!-- Tìm kiếm và thêm sách -->
 <form method="POST" class="mt-4 d-flex">
     <div class="input-group mb-3 ">
-        <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm sách">
+        <input type="text" class="form-control" name="tu_khoa" placeholder="Tìm kiếm phiếu trả theo tên độc giả">
         <button type="submit" name="tim_kiem" class="btn btn-outline-secondary">Tìm</button>
     </div>
 </form>

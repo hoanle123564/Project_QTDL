@@ -134,7 +134,8 @@ class PhieuMuon {
                 JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia 
                 JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon 
                 JOIN Sach s ON ctpm.MaSach = s.MaSach 
-                WHERE s.TenSach LIKE :tuKhoa OR dg.TenDocGia LIKE :tuKhoa
+                WHERE (s.TenSach LIKE :tuKhoa OR dg.TenDocGia LIKE :tuKhoa)
+                AND pm.TrangThai LIKE '%Đang mượn%'
                 GROUP BY pm.MaPhieuMuon";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':tuKhoa' => "%$tuKhoa%"]);
