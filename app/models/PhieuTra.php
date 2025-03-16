@@ -98,6 +98,18 @@ class PhieuTra {
         JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia
         ORDER BY pt.NgayTraSach DESC";
 
+        $sql = "SELECT 
+        pt.MaPhieuTra,
+        dg.TenDocGia, 
+        pm.NgayMuon,
+        pm.NgayTra,
+        pt.NgayTraSach,  
+        COALESCE(pt.TienPhat, 0) AS SoTienMuon
+        FROM PhieuTra pt
+        JOIN PhieuMuon pm ON pt.MaChiTietPM = pm.MaPhieuMuon
+        JOIN DocGia dg ON pm.MaDocGia = dg.MaDocGia
+        ORDER BY pt.NgayTraSach DESC";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

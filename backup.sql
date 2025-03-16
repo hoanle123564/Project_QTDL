@@ -165,6 +165,32 @@ SELECT SoLuong FROM SACH WHERE MaSach = 1;
 
 
 -- Trigger: Tính tiền phạt khi trả sách muộn
+-- DELIMITER //
+-- CREATE TRIGGER TinhTienPhat
+-- BEFORE INSERT ON PhieuTra
+-- FOR EACH ROW
+-- BEGIN
+--     DECLARE ngayTraDuKien DATE;
+--     DECLARE soNgayTre INT;
+
+--     -- Lấy NgayTra từ PhieuMuon thông qua ChiTietPhieuMuon
+--     SELECT pm.NgayTra INTO ngayTraDuKien
+--     FROM PhieuMuon pm
+--     JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon
+--     WHERE ctpm.MaChiTietPM = NEW.MaChiTietPM;
+
+--     -- Tính số ngày trễ
+--     SET soNgayTre = DATEDIFF(CURDATE(), ngayTraDuKien);
+--     IF soNgayTre > 0 THEN
+--         SET NEW.TienPhat = soNgayTre * 1000; -- 1000 VNĐ/ngày
+--     ELSE
+--         SET NEW.TienPhat = 0;
+--     END IF;
+-- END //
+-- DELIMITER ;
+--
+
+-- Trigger: Tính tiền phạt khi trả sách muộn
 DELIMITER //
 CREATE TRIGGER TinhTienPhat
 BEFORE INSERT ON PhieuTra
@@ -176,8 +202,8 @@ BEGIN
     -- Lấy NgayTra từ PhieuMuon thông qua ChiTietPhieuMuon
     SELECT pm.NgayTra INTO ngayTraDuKien
     FROM PhieuMuon pm
-    JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon
-    WHERE ctpm.MaChiTietPM = NEW.MaChiTietPM;
+    -- JOIN ChiTietPhieuMuon ctpm ON pm.MaPhieuMuon = ctpm.MaPhieuMuon
+    WHERE pm.MaPhieuMuon = NEW.MaChiTietPM;
 
     -- Tính số ngày trễ
     SET soNgayTre = DATEDIFF(CURDATE(), ngayTraDuKien);
