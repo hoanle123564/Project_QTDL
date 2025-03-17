@@ -3,6 +3,19 @@
         <h2>Chào mừng đến với Hệ thống Quản lý Thư viện</h2>
         <p>Vui lòng chọn chức năng bên dưới hoặc từ menu</p>
     </div>
+
+
+    <?php if (!isset($_SESSION['user'])): ?>
+    <div class="col-md-12 d-flex justify-content-center">
+        <div class="card mb-4" style="width: 300px;">
+            <div class="card-body text-center">
+                <h5 class="card-title">Đăng nhập</h5>
+                <a href="?action=dangNhap" class="btn btn-primary">Đi đến</a>
+            </div>
+        </div>
+    </div>
+
+    <?php else: ?>
     <div class="col-md-4">
         <div class="card mb-4">
             <div class="card-body">
@@ -12,17 +25,6 @@
         </div>
     </div>
 
-    <?php if (!isset($_SESSION['user'])): ?>
-    <div class="col-md-4">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">Đăng nhập</h5>
-                <a href="?action=dangNhap" class="btn btn-primary">Đi đến</a>
-            </div>
-        </div>
-    </div>
-
-    <?php else: ?>
     <div class="col-md-4">
         <div class="card mb-4">
             <div class="card-body">
